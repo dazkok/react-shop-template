@@ -1,0 +1,73 @@
+.promotion-product-square {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    width: 270px;
+    padding: 1px 1px 20px 1px;
+}
+
+.promotion-product-square:hover {
+    border: 1px solid black;
+    padding: 0 0 19px 0;
+}
+
+.promotion-product-square:hover > .wishlist-section {
+    margin: 9px;
+}
+
+.square-product-title {
+    color: #000;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+.square-product-category {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #767677;
+}
+
+.product-square-price {
+    position: absolute;
+    bottom: 0;
+    margin-left: 7px;
+}
+
+.promo-price {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #e32b2b;
+}
+
+.old-price {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #767677;
+}
+
+.wishlist-section {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    color: black;
+    cursor: default;
+    z-index: 9;
+}
+
+.promo-percent {
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+}
+
+.product-square-image {
+    min-height: 268px;
+    object-fit: contain;
+}
+
+.product-square-normal-price {
+    font-weight: 300;
+    font-size: 1rem;
+    color: black;
+}

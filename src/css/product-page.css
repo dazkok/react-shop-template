@@ -1,0 +1,61 @@
+.product-page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: start;
+}
+
+.product-page-promo-price {
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 1rem;
+    color: #e32b2b;
+}
+
+.product-page-price {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.product-page-short-description {
+    font-weight: 300;
+    font-size: 0.875rem;
+}
+
+.product-page-wishlist-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black !important;
+    background-color: white;
+    border-radius: 0;
+    height: 48px;
+    width: 48px;
+}
+
+.product-page-cart-button {
+    text-align: start;
+    width: 100%;
+}
+
+.product-page-image {
+    min-height: 500px;
+}
+
+.product-thumbs {
+    color: black;
+    font-weight: 300;
+}
+
+.product-images-slider-thumbs {
+    padding-bottom: 24px;
+}
+
+.product-images-thumb-item {
+    padding: 1px;
+    width: fit-content;
+}
+
+.product-images-thumb-item:hover {
+    padding: 0;
+    border: 1px solid black;
+}

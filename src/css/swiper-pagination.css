@@ -1,0 +1,9 @@
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+    background: black;
+}
+
+.swiper-pagination {
+    background-color: rgba(0, 0, 0, 0.1);
+    bottom: 0;
+    top: auto !important;
+}

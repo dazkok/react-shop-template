@@ -1,0 +1,11 @@
+.breadcrumb-item {
+    font-weight: 300;
+    text-decoration: underline;
+    color: #2e2e2e;
+    letter-spacing: 1px;
+}
+
+.breadcrumb-item:hover {
+    background-color: black;
+    color: white;
+}
