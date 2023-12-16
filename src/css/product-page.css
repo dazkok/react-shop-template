@@ -2,6 +2,7 @@
     font-size: 1.5rem;
     font-weight: 600;
     text-align: start;
+    color: black;
 }
 
 .product-page-promo-price {
@@ -39,6 +40,7 @@
 
 .product-page-image {
     min-height: 500px;
+    max-height: 747px;
 }
 
 .product-thumbs {
@@ -58,4 +60,29 @@
 .product-images-thumb-item:hover {
     padding: 0;
     border: 1px solid black;
+}
+
+.accordion-item {
+    border-left: none;
+    border-right: none;
+}
+
+.accordion-button {
+    font-weight: 600;
+    color: #2e2e2e !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: white;
+    box-shadow: none;
+    border-radius: 0 !important;
+}
+
+.accordion-button:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-item:first-of-type {
+    border-radius: 0;
 }

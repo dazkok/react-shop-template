@@ -3,7 +3,7 @@ import {IconHeart} from "@tabler/icons-react";
 import '../../css/product-square.css';
 import {Product} from "../../models/product";
 
-const ProductSquare = (props: { product: Product }) => {
+const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined }) => {
     const productPrice = props.product.price.toString().replace('.', ',');
 
     let productPromoPrice = '';
@@ -18,7 +18,8 @@ const ProductSquare = (props: { product: Product }) => {
 
     return (
         <>
-            <a href={`/p/${props.product.link}`} className={'promotion-product-square'}>
+            <a href={`/p/${props.product.link}`}
+               className={'promotion-product-square'} style={{maxWidth: props.maxWidth ? '270px' : 'none'}}>
                 <div className={'position-relative'}>
                     <img className={'product-square-image'}
                          src={`http://localhost:8010/images/${props.product.images[0].image}`}
@@ -41,7 +42,9 @@ const ProductSquare = (props: { product: Product }) => {
                             </>
                         ) : (
                             <>
-                                <div className={'product-square-normal-price bg-white px-1 shadow-sm'}>{productPrice} zł</div>
+                                <div
+                                    className={'product-square-normal-price bg-white px-1 shadow-sm'}>{productPrice} zł
+                                </div>
                             </>
                         )}
                     </div>

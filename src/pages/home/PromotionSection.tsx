@@ -50,7 +50,7 @@ const PromotionSection = () => {
                     slidesPerGroup={2}
                     slidesPerGroupSkip={1}
                     spaceBetween={30}
-                    lazy={true}
+                    lazy={'true'}
                     breakpoints={{
                         1400: {
                             slidesPerGroup: 4,
@@ -64,7 +64,7 @@ const PromotionSection = () => {
                 >
                     {products.map((product) => (
                         <SwiperSlide key={product.id} style={{width: 'fit-content'}}>
-                            <ProductSquare product={product}/>
+                            <ProductSquare product={product} maxWidth={true}/>
                             <div className="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                         </SwiperSlide>
                     ))}

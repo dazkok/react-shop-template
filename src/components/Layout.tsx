@@ -1,5 +1,4 @@
 import React, {Dispatch, useEffect, useState} from 'react';
-import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import {setUser} from "../redux/actions/setUserAction";
 import axios from "axios";
@@ -11,9 +10,9 @@ import {Category} from "../models/category";
 import '../css/layout.css';
 import GlobalNotify from "./GlobalNotify";
 import Footer from "./Footer";
+import CartModalComponent from "./cart-modal/CartModalComponent";
 
 const Layout = (props: any) => {
-    const location = useLocation();
     const [pages, setPages] = useState<Page[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
 
@@ -71,17 +70,19 @@ const Layout = (props: any) => {
                 {props.children}
             </main>
 
+            <CartModalComponent/>
+
             <Footer pages={pages} categories={categories}/>
         </div>
     );
 };
 
-const mapStateToProps = (state: { user: User }) => ({
-    user: state.user
+const mapStateToProps = (state: { user: { user: User } }) => ({
+    user: state.user.user
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setUser: (user: User) => dispatch(setUser(user))
+    setUser: (user: User) => dispatch(setUser(user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

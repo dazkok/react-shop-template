@@ -38,7 +38,7 @@ const HomeSlider = () => {
             ) : (
                 <Swiper
                     effect={'fade'}
-                    lazy={true}
+                    lazy={'true'}
                     spaceBetween={50}
                     centeredSlides={true}
                     autoplay={{

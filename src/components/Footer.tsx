@@ -68,18 +68,19 @@ const Footer = (props: { pages: Page[], categories: Category[] }) => {
 
                     <div className="col-lg-5 offset-lg-1 mb-3 mb-lg-0">
                         <form>
-                            <h5>Subscribe to our newsletter</h5>
-                            <p>Monthly digest of what's new and exciting from us.</p>
+                            <div className={'footer-menu-header'}>Subscribe to our newsletter</div>
+                            <div className={'global-text text-center mb-3'}>Get a <b>10% discount</b> on your first order</div>
                             <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label htmlFor="newsletter1" className="visually-hidden">Email address</label>
-                                <input id="newsletter1" type="text" className="form-control"
-                                       placeholder="Email address"/>
+                                <label htmlFor="newsletter1" className="visually-hidden">Email</label>
+                                <input id="newsletter1" type="email" className="form-control global-input"
+                                       placeholder="Email"/>
                                 <button className="btn global-button" type="button">Subscribe</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
             <div className={'container-fluid py-3 text-white'}
                  style={{background: '#282c31'}}
             >

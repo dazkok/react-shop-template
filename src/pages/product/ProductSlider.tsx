@@ -24,7 +24,7 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                     '--swiper-pagination-color': '#fff',
                 }}
                 spaceBetween={10}
-                lazy={true}
+                lazy={'true'}
                 navigation={true}
                 thumbs={{swiper: thumbsSwiper?.destroyed ? null : thumbsSwiper}}
                 modules={[FreeMode, Navigation, Thumbs]}

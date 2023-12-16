@@ -21,7 +21,10 @@ const CategoryPage = () => {
                     const {data} = await axios.get(`categories/${link}`);
 
                     setCategory(data);
-                    setLoading(false);
+
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 3000);
                 } catch (error) {
                     setLoading(false);
                     console.log('');
@@ -54,7 +57,7 @@ const CategoryPage = () => {
     return (
         <Layout>
             <Breadcrumb breadcrumb={breadcrumb}/>
-            <CategoryProducts products={products ? products : []} loading={loading}/>
+            <CategoryProducts products={products} loading={loading}/>
             <PageDescription description={category ? category.description : ''}/>
         </Layout>
     );

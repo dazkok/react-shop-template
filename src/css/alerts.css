@@ -1,0 +1,15 @@
+.global-alert {
+    display: flex;
+    align-items: center;
+    text-align: start;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.global-alert-success {
+    color: #006700;
+}
+
+.global-alert-danger {
+    color: #d50000;
+}

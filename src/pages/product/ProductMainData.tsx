@@ -1,30 +1,51 @@
-import React from 'react';
+import React, {Dispatch, SyntheticEvent} from 'react';
 import {Product} from "../../models/product";
 import {IconCalendarClock, IconHeart, IconThumbUp, IconTruckDelivery} from "@tabler/icons-react";
+import axios from "axios";
+import {getCart} from "../../components/cart-modal/getCart";
+import {Order} from "../../models/order";
+import {setOrder} from "../../redux/actions/cartActions";
+import {connect} from "react-redux";
 
-const ProductMainData = (props: { product: Product }) => {
+const ProductMainData = (props: { product: Product, setOrder: Function }) => {
     const productPrice = props.product.price.toString().replace('.', ',');
 
     let productPromoPrice = '';
-    let roundedDiscountPercentage = 0;
 
     if (props.product.promo_price) {
         productPromoPrice = props.product.promo_price.toString().replace('.', ',');
+    }
 
-        const discountPercentage = ((props.product.price - props.product.promo_price) / props.product.price) * 100;
-        roundedDiscountPercentage = Math.round(discountPercentage * 100) / 100;
+    const addProductToCart = async (e: SyntheticEvent, product_id: number) => {
+        e.preventDefault();
+
+        await axios.post('cart/add', {
+            product_id
+        })
+            .then(async response => {
+                const cartData = await getCart();
+
+                if (cartData !== null) {
+                    props.setOrder(cartData);
+                }
+
+                const cartIcon = document.getElementById('cart-icon');
+                if (cartIcon) {
+                    cartIcon.dispatchEvent(new Event('click'));
+                }
+            })
+            .catch(error => {
+                console.error('Error while adding an item to the cart:', error);
+            });
     }
 
     return (
         <>
-            <div className={'product-page-title'}>{props.product.title}</div>
+            <h1 className={'product-page-title'}>{props.product.title}</h1>
 
             <div className={'text-start mt-2 mb-5'}>
                 {props.product.promo_price ? (
                     <>
-                        {/*<div className={'bg-white mb-1 px-1 promo-percent shadow-sm'}>*/}
-                        {/*    -{roundedDiscountPercentage} %*/}
-                        {/*</div>*/}
                         <del className={'old-price'}>{productPrice} zł</del>
                         &nbsp;
                         <span className={'product-page-promo-price'}>{productPromoPrice} zł</span>
@@ -42,6 +63,7 @@ const ProductMainData = (props: { product: Product }) => {
 
             <div className={'d-flex justify-content-start align-items-center mt-4 w-100'}>
                 <button type={'button'}
+                        onClick={(e) => addProductToCart(e, props.product.id)}
                         className={'btn global-button product-page-cart-button me-2'}>
                     Add to cart
                 </button>
@@ -81,4 +103,13 @@ const ProductMainData = (props: { product: Product }) => {
     );
 };
 
-export default ProductMainData;
+
+const mapStateToProps = (state: { cart: { order: Order } }) => ({
+    order: state.cart.order
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setOrder: (order: Order) => dispatch(setOrder(order))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductMainData);

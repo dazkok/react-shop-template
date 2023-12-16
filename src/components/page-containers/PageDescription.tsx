@@ -15,7 +15,7 @@ const PageDescription = (props: {description: string}) => {
                         </div>
                     </div>
                 ) : (
-                    <div style={{fontWeight: 300}}
+                    <div className={'global-text'}
                          dangerouslySetInnerHTML={{__html: props.description ? props.description : ''}}/>
                 )}
             </div>
