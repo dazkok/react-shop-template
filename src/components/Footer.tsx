@@ -13,7 +13,7 @@ const Footer = (props: { pages: Page[], categories: Category[] }) => {
         <footer className="mt-auto border-top">
             <div className="container py-5">
                 <div className="row px-xl-5">
-                    <div className="col-6 col-lg-2 mb-3 mb-lg-0 text-start">
+                    <div className="col-6 col-md-4 col-lg-2 mb-3 mb-lg-0 text-start">
                         <div className={'footer-menu-header mb-2'}>Products</div>
 
                         <ul className="nav flex-column">
@@ -28,7 +28,7 @@ const Footer = (props: { pages: Page[], categories: Category[] }) => {
                         </ul>
                     </div>
 
-                    <div className="col-6 col-lg-2 mb-3 mb-lg-0 text-start">
+                    <div className="col-6 col-md-4 col-lg-2 mb-3 mb-lg-0 text-start">
                         <div className={'footer-menu-header mb-2'}>Information</div>
 
                         <ul className="nav flex-column">
@@ -43,22 +43,22 @@ const Footer = (props: { pages: Page[], categories: Category[] }) => {
                         </ul>
                     </div>
 
-                    <div className="col-6 col-lg-2 mb-3 text-start">
+                    <div className="col-6 col-md-4 col-lg-2 mb-3 text-start">
                         <div className={'footer-menu-header mb-2'}>Watch us</div>
 
                         <ul className="nav flex-column">
-                            <li className="mb-2">
+                            <li className="mb-2 me-2">
                                 <a href="#"
                                    className="p-0 footer-icon-item">
                                     <IconBrandFacebook size={20} stroke={1.5}/>
                                 </a>
                             </li>
-                            <li className="mb-2">
+                            <li className="mb-2 me-2">
                                 <a href="#" className="p-0 footer-icon-item">
                                     <IconBrandInstagram size={20} stroke={1.5}/>
                                 </a>
                             </li>
-                            <li className="mb-2">
+                            <li className="mb-2 me-2">
                                 <a href="#" className="p-0 footer-icon-item">
                                     <IconBrandTiktok size={20} stroke={1.5}/>
                                 </a>
@@ -66,13 +66,21 @@ const Footer = (props: { pages: Page[], categories: Category[] }) => {
                         </ul>
                     </div>
 
-                    <div className="col-lg-5 offset-lg-1 mb-3 mb-lg-0">
+                    <div className={'d-lg-none col-12'}>
+                        <hr/>
+                    </div>
+
+                    <div className="col-lg-5 offset-lg-1 mt-3 mb-lg-0 text-center">
                         <form>
                             <div className={'footer-menu-header'}>Subscribe to our newsletter</div>
-                            <div className={'global-text text-center mb-3'}>Get a <b>10% discount</b> on your first order</div>
+                            <div className={'global-text mb-3 text-center'}>Get a <b>10% discount</b> on your first
+                                order
+                            </div>
                             <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label htmlFor="newsletter1" className="visually-hidden">Email</label>
-                                <input id="newsletter1" type="email" className="form-control global-input"
+                                <label htmlFor="newsletter" className="visually-hidden">Email</label>
+                                <input id="newsletter"
+                                       type="email"
+                                       className="form-control global-input"
                                        placeholder="Email"/>
                                 <button className="btn global-button" type="button">Subscribe</button>
                             </div>

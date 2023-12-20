@@ -15,5 +15,6 @@ export interface Product {
     meta_title: string;
     meta_description: string;
     category: Category;
+    image: ProductImage;
     images: ProductImage[];
 }

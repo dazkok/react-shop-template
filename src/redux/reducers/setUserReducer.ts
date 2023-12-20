@@ -1,7 +1,7 @@
 import {User} from "../../models/user";
 
 const initialState = {
-    user: new User()
+    user: undefined
 }
 
 export const setUserReducer = (

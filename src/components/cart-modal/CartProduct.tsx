@@ -8,7 +8,13 @@ import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
 import {connect} from "react-redux";
 import axios from "axios";
 
-const CartProduct = (props: { orderItem: OrderItem, setOrder: Function, updateQuantity: Function, setPriceLoading: Function }) => {
+const CartProduct = (props: {
+    orderItem: OrderItem,
+    setOrder: Function,
+    updateQuantity: Function,
+    setPriceLoading: Function,
+    productStyle: string
+}) => {
     const productPrice = props.orderItem.product.price.toString().replace('.', ',');
 
     let productPromoPrice = '';
@@ -66,75 +72,144 @@ const CartProduct = (props: { orderItem: OrderItem, setOrder: Function, updateQu
         }
     };
 
-    return (
-        <div className={'row mb-3'}>
-            <div className={'col-4'}>
-                <img className={'object-fit-contain'}
-                     src={`http://localhost:8010/images/${props.orderItem.product.images[0].image}`}
-                     alt={props.orderItem.product.images[0].alt}
-                     loading={'lazy'}
-                     width={'100%'}
-                />
-            </div>
-
-            <div className={'col-6 text-start ps-0 d-flex flex-column justify-content-between'}>
-                <div>
-                    <div className={'square-product-title'}>
-                        {props.orderItem.product.title}
-                    </div>
-
-                    {props.orderItem.product.promo_price ? (
-                        <>
-                            <del className={'old-price'}>{productPrice} zł</del>
-                            &nbsp;
-                            <span className={'promo-price'}>{productPromoPrice} zł</span>
-                        </>
-                    ) : (
-                        <>
-                            <div
-                                className={'product-square-normal-price'}>{productPrice} zł
-                            </div>
-                        </>
-                    )}
-                </div>
-
-                <div className={'d-flex'}>
-                    <div role={'button'} className={'minus-button'}>
-                        <IconMinus stroke={1.5} color={'black'}
-                                   onClick={() => {
-                                       debouncedUpdateItemQuantityAxios();
-                                       updateItemQuantity(props.orderItem.quantity - 1);
-                                   }}
-                        />
-                    </div>
-                    <div className={'count-field'}>{props.orderItem.quantity}</div>
-                    <div role={'button'} className={'plus-button'}>
-                        <IconPlus stroke={1.5} color={'black'}
-                                  onClick={() => {
-                                      debouncedUpdateItemQuantityAxios();
-                                      updateItemQuantity(props.orderItem.quantity + 1);
-                                  }}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div className={'col-2 d-flex flex-column align-items-end'}>
-                <IconTrash stroke={1.5} color={'#000'} className={'mb-3'}
-                           role={'button'}
-                           onClick={() => (
-                               removeFromCart(props.orderItem.id)
-                                   .then(async response => {
-                                       const cartData = await getCart();
-
-                                       if (cartData !== null) {
-                                           props.setOrder(cartData);
-                                       }
-                                   })
-                           )}/>
-                <IconHeart stroke={1.5} color={'#000'}/>
-            </div>
+    const quantityButtons = <div className={'d-flex'}>
+        <div role={'button'} className={'minus-button'}>
+            <IconMinus stroke={1.5} color={'black'}
+                       onClick={() => {
+                           debouncedUpdateItemQuantityAxios();
+                           updateItemQuantity(props.orderItem.quantity - 1);
+                       }}
+            />
         </div>
+        <div className={'count-field'}>{props.orderItem.quantity}</div>
+        <div role={'button'} className={'plus-button'}>
+            <IconPlus stroke={1.5} color={'black'}
+                      onClick={() => {
+                          debouncedUpdateItemQuantityAxios();
+                          updateItemQuantity(props.orderItem.quantity + 1);
+                      }}
+            />
+        </div>
+    </div>;
+
+    return (
+        props.productStyle === 'small-cart' ? (
+            <div className={'row mb-3'}>
+                <div className={'col-4'}>
+                    <img className={'object-fit-contain'}
+                         src={`http://localhost:8010/images/${props.orderItem.product.image.image}`}
+                         alt={props.orderItem.product.image.alt}
+                         loading={'lazy'}
+                         width={'100%'}
+                    />
+                </div>
+
+                <div className={'col-6 text-start ps-0 d-flex flex-column justify-content-between'}>
+                    <div>
+                        <div className={'square-product-title'}>
+                            {props.orderItem.product.title}
+                        </div>
+
+                        {props.orderItem.product.promo_price ? (
+                            <>
+                                <del className={'old-price'}>{productPrice} zł</del>
+                                &nbsp;
+                                <span className={'promo-price'}>{productPromoPrice} zł</span>
+                            </>
+                        ) : (
+                            <>
+                                <div
+                                    className={'product-square-normal-price'}>{productPrice} zł
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {quantityButtons}
+                </div>
+
+                <div className={'col-2 d-flex flex-column align-items-end'}>
+                    <IconTrash stroke={1.5} color={'#000'} className={'mb-3'}
+                               role={'button'}
+                               onClick={() => (
+                                   removeFromCart(props.orderItem.id)
+                                       .then(async response => {
+                                           const cartData = await getCart();
+
+                                           if (cartData !== null) {
+                                               props.setOrder(cartData);
+                                           }
+                                       })
+                               )}/>
+                    <IconHeart stroke={1.5} color={'#000'}/>
+                </div>
+            </div>
+        ) : (
+            <div className={'row mb-3'}>
+                <div className={'col-12'}>
+                    <div style={{border: '1px solid black'}}>
+                        <div className={'row'}>
+                            <div className={'col-4 pe-0'}>
+                                <img className={'object-fit-contain'}
+                                     src={`http://localhost:8010/images/${props.orderItem.product.image.image}`}
+                                     alt={props.orderItem.product.image.alt}
+                                     loading={'lazy'}
+                                     width={'100%'}
+                                />
+                            </div>
+
+                            <div className={'col-8 text-start ps-0'}>
+                                <div className={'row h-100'}>
+                                    <div className={'col-9'}>
+                                        <div className={'py-3 px-4 d-flex flex-column justify-content-between h-100'}>
+                                            <div>
+                                                <div className={'square-product-title'}>
+                                                    {props.orderItem.product.title}
+                                                </div>
+                                                <div
+                                                    className="square-product-category mt-1">{props.orderItem.product.category?.title}</div>
+
+                                                {props.orderItem.product.promo_price ? (
+                                                    <>
+                                                        <del className={'old-price'}>{productPrice} zł</del>
+                                                        &nbsp;
+                                                        <span className={'promo-price'}>{productPromoPrice} zł</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div
+                                                            className={'product-square-normal-price'}>{productPrice} zł
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+
+                                            {quantityButtons}
+                                        </div>
+                                    </div>
+
+                                    <div className={'col-3 d-flex flex-column align-items-end'}>
+                                        <IconTrash stroke={1.5} color={'#000'} className={'my-3 me-3'}
+                                                   role={'button'}
+                                                   onClick={() => (
+                                                       removeFromCart(props.orderItem.id)
+                                                           .then(async response => {
+                                                               const cartData = await getCart();
+
+                                                               if (cartData !== null) {
+                                                                   props.setOrder(cartData);
+                                                               }
+                                                           })
+                                                   )}/>
+                                        <IconHeart stroke={1.5} color={'#000'} className={'me-3'}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     );
 };
 

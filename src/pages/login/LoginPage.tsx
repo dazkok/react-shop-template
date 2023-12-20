@@ -12,7 +12,6 @@ const LoginPage = (props: { user: User }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
-    const [redirectTo, setRedirectTo] = useState('/');
     const [errorType, setErrorType] = useState('');
 
     const breadcrumb = [
@@ -22,7 +21,6 @@ const LoginPage = (props: { user: User }) => {
 
     useEffect(() => {
         if (props.user?.id) {
-            setRedirectTo('/account');
             setRedirect(true);
         }
     }, [props.user]);
@@ -47,7 +45,7 @@ const LoginPage = (props: { user: User }) => {
     }
 
     if (redirect) {
-        return <Navigate to={redirectTo}/>
+        return <Navigate to={'/account'}/>
     }
 
     return (

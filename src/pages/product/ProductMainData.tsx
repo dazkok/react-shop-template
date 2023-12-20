@@ -6,6 +6,7 @@ import {getCart} from "../../components/cart-modal/getCart";
 import {Order} from "../../models/order";
 import {setOrder} from "../../redux/actions/cartActions";
 import {connect} from "react-redux";
+import IsProductInWishlist from "../account/wishlist/isProductInWishlist";
 
 const ProductMainData = (props: { product: Product, setOrder: Function }) => {
     const productPrice = props.product.price.toString().replace('.', ',');
@@ -15,6 +16,8 @@ const ProductMainData = (props: { product: Product, setOrder: Function }) => {
     if (props.product.promo_price) {
         productPromoPrice = props.product.promo_price.toString().replace('.', ',');
     }
+
+    const wishlistIcon = <IsProductInWishlist product_id={props.product.id} productPage={true}/>;
 
     const addProductToCart = async (e: SyntheticEvent, product_id: number) => {
         e.preventDefault();
@@ -67,10 +70,11 @@ const ProductMainData = (props: { product: Product, setOrder: Function }) => {
                         className={'btn global-button product-page-cart-button me-2'}>
                     Add to cart
                 </button>
-                <button type={'button'}
-                        className={'btn product-page-wishlist-button'}>
-                    <IconHeart size={24}/>
-                </button>
+                {wishlistIcon}
+                {/*<button type={'button'}*/}
+                {/*        className={'btn product-page-wishlist-button'}>*/}
+                {/*    <IconHeart size={24}/>*/}
+                {/*</button>*/}
             </div>
 
             <div className={'d-flex flex-column mt-4 text-start product-thumbs'}>
@@ -102,7 +106,6 @@ const ProductMainData = (props: { product: Product, setOrder: Function }) => {
         </>
     );
 };
-
 
 const mapStateToProps = (state: { cart: { order: Order } }) => ({
     order: state.cart.order

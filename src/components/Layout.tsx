@@ -11,6 +11,10 @@ import '../css/layout.css';
 import GlobalNotify from "./GlobalNotify";
 import Footer from "./Footer";
 import CartModalComponent from "./cart-modal/CartModalComponent";
+import {Product} from "../models/product";
+import {setWishlist} from "../redux/actions/wishlistActions";
+import {getWishlist} from "../pages/account/wishlist/getWishlist";
+import MobileMenuModal from "./MobileMenuModal";
 
 const Layout = (props: any) => {
     const [pages, setPages] = useState<Page[]>([]);
@@ -52,11 +56,28 @@ const Layout = (props: any) => {
 
                     props.setUser(data);
                 } catch (error) {
+                    props.setUser({first_name: 'not logged in'});
                     console.log('');
                 }
             }
         )();
     }, []);
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    const wishlistData = await getWishlist();
+
+                    if (wishlistData !== null) {
+                        props.setWishlist(wishlistData);
+                    }
+                } catch (error) {
+                    console.log('');
+                }
+            }
+        )();
+    }, [props.user?.id]);
 
     return (
         <div className={'d-flex flex-column min-vh-100'}>
@@ -72,17 +93,21 @@ const Layout = (props: any) => {
 
             <CartModalComponent/>
 
+            <MobileMenuModal categories={categories} pages={pages}/>
+
             <Footer pages={pages} categories={categories}/>
         </div>
     );
 };
 
-const mapStateToProps = (state: { user: { user: User } }) => ({
-    user: state.user.user
+const mapStateToProps = (state: { user: { user: User }, wishlist: { wishlist: Product[]} }) => ({
+    user: state.user.user,
+    wishlist: state.wishlist.wishlist
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setUser: (user: User) => dispatch(setUser(user)),
+    setWishlist: (wishlist: Product[]) => dispatch(setWishlist(wishlist))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

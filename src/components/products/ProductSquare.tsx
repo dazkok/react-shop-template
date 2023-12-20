@@ -1,7 +1,7 @@
 import React from 'react';
-import {IconHeart} from "@tabler/icons-react";
 import '../../css/product-square.css';
 import {Product} from "../../models/product";
+import IsProductInWishlist from "../../pages/account/wishlist/isProductInWishlist";
 
 const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined }) => {
     const productPrice = props.product.price.toString().replace('.', ',');
@@ -15,6 +15,8 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
         const discountPercentage = ((props.product.price - props.product.promo_price) / props.product.price) * 100;
         roundedDiscountPercentage = Math.round(discountPercentage * 100) / 100;
     }
+
+    const wishlistIcon = <IsProductInWishlist product_id={props.product.id}/>;
 
     return (
         <>
@@ -57,9 +59,8 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
                         {props.product.category.title}
                     </div>
                 </div>
-                <div className={'wishlist-section'}>
-                    <IconHeart/>
-                </div>
+
+                {wishlistIcon}
             </a>
         </>
     );

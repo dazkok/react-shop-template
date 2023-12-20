@@ -32,7 +32,7 @@ const PromotionSection = () => {
     }, []);
 
     return (
-        <div className={'container py-5'}>
+        <div className={'container my-5'}>
             <div className={'global-title-1 mb-4'}>
                 Exceptional offers for you
             </div>

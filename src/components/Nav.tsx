@@ -4,7 +4,7 @@ import {Page} from "../models/page";
 const Nav = (props: { pages: Page[] }) => {
 
     return (
-        <nav className="py-1 bg-white" style={{height: '32px'}}>
+        <nav className="py-1 bg-white d-none d-md-block" style={{height: '32px'}}>
             <div className="container-fluid d-flex justify-content-end px-5">
                 <ul className="nav">
                     {props.pages.map((page) => (

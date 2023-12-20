@@ -54,7 +54,7 @@ const CartModalComponent = (props: any) => {
                                     <div className="modal-body">
                                         {props.order.order_items.map((order_item: OrderItem) => (
                                             <CartProduct key={order_item.id} orderItem={order_item}
-                                                         setPriceLoading={setPriceLoading}/>
+                                                         setPriceLoading={setPriceLoading} productStyle={'small-cart'}/>
                                         ))}
                                     </div>
 
