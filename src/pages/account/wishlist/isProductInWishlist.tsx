@@ -5,16 +5,19 @@ import {IconHeart, IconHeartFilled} from "@tabler/icons-react";
 import axios from "axios";
 import {getWishlist} from "./getWishlist";
 import {setWishlist} from "../../../redux/actions/wishlistActions";
+import {User} from "../../../models/user";
 
 const IsProductInWishlist = (props: {
     product_id: number,
     productPage?: boolean,
     wishlist: Product[],
-    setWishlist: Function
+    setWishlist: Function,
+    user: User | undefined
 }) => {
     const [loading, setLoading] = useState(false);
     const isProductInWishlist = props.wishlist.some(product => product.id === props.product_id);
 
+    console.log(props.user)
     const addToWishlist = async (e: SyntheticEvent, product_id: number) => {
         e.preventDefault();
 
@@ -61,7 +64,7 @@ const IsProductInWishlist = (props: {
 
     return (
         isProductInWishlist ? (
-            props.productPage ?
+            props.productPage ? (
                 <button type={'button'}
                         onClick={(e) => removeFromWishlist(e, props.product_id)}
                         className={'btn product-page-wishlist-button'}>
@@ -72,7 +75,8 @@ const IsProductInWishlist = (props: {
                     ) : (
                         <IconHeartFilled size={24}/>
                     )}
-                </button> :
+                </button>
+            ) : (
                 <div className={'wishlist-section'} role={'button'}
                      onClick={(e) => removeFromWishlist(e, props.product_id)}>
                     {loading ? (
@@ -83,35 +87,68 @@ const IsProductInWishlist = (props: {
                         <IconHeartFilled/>
                     )}
                 </div>
+            )
         ) : (
-            props.productPage ?
-                <button type={'button'}
-                        onClick={(e) => addToWishlist(e, props.product_id)}
-                        className={'btn product-page-wishlist-button'}>
-                    {loading ? (
-                        <div className="spinner-border spinner-border-sm" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    ) : (
-                        <IconHeart size={24}/>
-                    )}
-                </button> :
-                <div className={'wishlist-section'} role={'button'}
-                     onClick={(e) => addToWishlist(e, props.product_id)}>
-                    {loading ? (
-                        <div className="spinner-border spinner-border-sm" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    ) : (
-                        <IconHeart/>
-                    )}
-                </div>
+            props.productPage ? (
+                props.user ? (
+                    <button type={'button'}
+                            onClick={(e) => addToWishlist(e, props.product_id)}
+                            className={'btn product-page-wishlist-button'}>
+                        {loading ? (
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        ) : (
+                            <IconHeart size={24}/>
+                        )}
+                    </button>
+                ) : (
+                    <button type={'button'}
+                            data-bs-toggle="modal"
+                            data-bs-target="#pleaseLoginModal"
+                            className={'btn product-page-wishlist-button'}>
+                        {loading ? (
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        ) : (
+                            <IconHeart size={24}/>
+                        )}
+                    </button>
+                )
+            ) : (
+                props.user ? (
+                    <div className={'wishlist-section'} role={'button'}
+                         onClick={(e) => addToWishlist(e, props.product_id)}>
+                        {loading ? (
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        ) : (
+                            <IconHeart/>
+                        )}
+                    </div>
+                ) : (
+                    <div className={'wishlist-section'} role={'button'}
+                         data-bs-toggle="modal"
+                         data-bs-target="#pleaseLoginModal">
+                        {loading ? (
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        ) : (
+                            <IconHeart/>
+                        )}
+                    </div>
+                )
+            )
         )
     );
 };
 
-const mapStateToProps = (state: { wishlist: { wishlist: Product[] } }) => ({
-    wishlist: state.wishlist.wishlist
+const mapStateToProps = (state: { wishlist: { wishlist: Product[] }, user: { user: User } }) => ({
+    wishlist: state.wishlist.wishlist,
+    user: state.user.user
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

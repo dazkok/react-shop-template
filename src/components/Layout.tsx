@@ -15,6 +15,7 @@ import {Product} from "../models/product";
 import {setWishlist} from "../redux/actions/wishlistActions";
 import {getWishlist} from "../pages/account/wishlist/getWishlist";
 import MobileMenuModal from "./MobileMenuModal";
+import PleaseLoginModal from "./modals/PleaseLoginModal";
 
 const Layout = (props: any) => {
     const [pages, setPages] = useState<Page[]>([]);
@@ -56,8 +57,7 @@ const Layout = (props: any) => {
 
                     props.setUser(data);
                 } catch (error) {
-                    props.setUser({first_name: 'not logged in'});
-                    console.log('');
+                    props.setUser(undefined);
                 }
             }
         )();
@@ -94,6 +94,10 @@ const Layout = (props: any) => {
             <CartModalComponent/>
 
             <MobileMenuModal categories={categories} pages={pages}/>
+
+            {!props.user?.id ? (
+                <PleaseLoginModal/>
+            ) : ''}
 
             <Footer pages={pages} categories={categories}/>
         </div>

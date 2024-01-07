@@ -10,6 +10,7 @@ import LoginPage from "./pages/login/LoginPage";
 import AccountDataPage from "./pages/account/account-data/AccountDataPage";
 import WishlistPage from "./pages/account/wishlist/WishlistPage";
 import CartPage from "./pages/cart/CartPage";
+import RegisterPage from "./pages/login/RegisterPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path={'/'} caseSensitive element={<HomePage/>}/>
           <Route path={'/contact'} element={<ContactPage/>}/>
           <Route path={'/login'} element={<LoginPage/>}/>
-          <Route path={'/register'} element={<LoginPage/>}/>
+          <Route path={'/register'} element={<RegisterPage/>}/>
           <Route path={'/cart'} element={<CartPage/>}/>
           <Route path={'/account'} element={<AccountDataPage/>}/>
           <Route path={'/account/addresses'} element={<AccountDataPage/>}/>

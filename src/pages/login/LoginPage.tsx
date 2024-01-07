@@ -7,6 +7,7 @@ import {Navigate} from "react-router-dom";
 import AlertComponent from "../../components/alerts/Alerts";
 import {User} from "../../models/user";
 import {connect} from "react-redux";
+import AccountAdvantagesComponent from "./AccountAdvantagesComponent";
 
 const LoginPage = (props: { user: User }) => {
     const [email, setEmail] = useState('');
@@ -99,24 +100,7 @@ const LoginPage = (props: { user: User }) => {
                             <a href={'/register'} className="btn global-button w-100" type="button">Sign up</a>
                         </div>
 
-                        <div className="w-100 px-md-5 mt-5">
-                            <div className={'global-subtitle'}>
-                                Why it's worth having an account:
-                            </div>
-
-                            <div className={'d-flex flex-column align-items-start pt-4'}>
-                                <div className={'d-flex align-items-center global-label'}>
-                                    <IconDiscount2 stroke={1.7}/>&nbsp;Additional discounts and promotions
-                                </div>
-                                <div className={'d-flex align-items-center global-label my-2'}>
-                                    <IconFileInvoice stroke={1.7}/>&nbsp;Order history
-                                </div>
-                                <div className={'d-flex align-items-center global-label'}>
-                                    <IconHotelService stroke={1.7}/>&nbsp;Service support
-                                </div>
-                            </div>
-                        </div>
-
+                        <AccountAdvantagesComponent/>
                     </div>
                 </div>
             </div>

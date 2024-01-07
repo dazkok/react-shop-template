@@ -19,7 +19,7 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
     const wishlistIcon = <IsProductInWishlist product_id={props.product.id}/>;
 
     return (
-        <>
+        <div className={'position-relative'}>
             <a href={`/p/${props.product.link}`}
                className={'promotion-product-square'} style={{maxWidth: props.maxWidth ? '270px' : 'none'}}>
                 <div className={'position-relative'}>
@@ -59,10 +59,10 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
                         {props.product.category.title}
                     </div>
                 </div>
-
-                {wishlistIcon}
             </a>
-        </>
+
+            {wishlistIcon}
+        </div>
     );
 };
 

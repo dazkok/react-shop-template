@@ -7,6 +7,7 @@ import {Order} from "../../models/order";
 import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
 import {connect} from "react-redux";
 import axios from "axios";
+import IsProductInWishlist from "../../pages/account/wishlist/isProductInWishlist";
 
 const CartProduct = (props: {
     orderItem: OrderItem,
@@ -92,6 +93,8 @@ const CartProduct = (props: {
         </div>
     </div>;
 
+    const wishlistIcon = <IsProductInWishlist product_id={props.orderItem.id}/>;
+
     return (
         props.productStyle === 'small-cart' ? (
             <div className={'row mb-3'}>
@@ -141,7 +144,10 @@ const CartProduct = (props: {
                                            }
                                        })
                                )}/>
-                    <IconHeart stroke={1.5} color={'#000'}/>
+                    <div className={'position-relative'} style={{marginRight: '-10px'}}>
+                        {wishlistIcon}
+                    </div>
+                    {/*<IconHeart stroke={1.5} color={'#000'}/>*/}
                 </div>
             </div>
         ) : (
