@@ -17,7 +17,6 @@ const IsProductInWishlist = (props: {
     const [loading, setLoading] = useState(false);
     const isProductInWishlist = props.wishlist.some(product => product.id === props.product_id);
 
-    console.log(props.user)
     const addToWishlist = async (e: SyntheticEvent, product_id: number) => {
         e.preventDefault();
 

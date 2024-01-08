@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, useEffect, useState} from 'react';
 import Layout from "../../components/Layout";
 import Breadcrumb from "../../components/page-containers/Breadcrumb";
 import {OrderItem} from "../../models/order-item";
@@ -9,10 +9,13 @@ import {IconDiscount2} from "@tabler/icons-react";
 import PromotionSection from "../home/PromotionSection";
 import axios from "axios";
 import {PayMethod} from "../../models/pay-method";
+import {getCart} from "../../components/cart-modal/getCart";
+import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
 
-const CartPage = (props: { order: Order | undefined }) => {
+const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
     const [priceLoading, setPriceLoading] = useState(false);
     const [payMethods, setPayMethods] = useState<PayMethod[]>();
+    const [promoCode, setPromoCode] = useState('');
 
     const breadcrumb = [
         {label: 'Home', link: '/'},
@@ -33,6 +36,33 @@ const CartPage = (props: { order: Order | undefined }) => {
             }
         )();
     }, []);
+
+    let applyButton = null;
+    if (promoCode === '') {
+        applyButton = '';
+    } else {
+        applyButton = <button className="btn global-button global-secondary-button w-100 text-start mt-3"
+                              type="button">Apply</button>;
+    }
+
+    const applyDiscountCode = async () => {
+        try {
+            await axios.put('cart/discount-code', {
+                discount_code: promoCode,
+            });
+
+            const cartData = await getCart();
+
+            if (cartData !== null) {
+                props.setOrder(cartData);
+            }
+        } catch (error) {
+            setPriceLoading(false);
+            console.error("Error while changing the quantity of products in the cart:", error);
+        } finally {
+            setPriceLoading(false);
+        }
+    };
 
     return (
         <Layout>
@@ -105,10 +135,22 @@ const CartPage = (props: { order: Order | undefined }) => {
                                     </div>
                                 </div>
 
-                                <div className={'d-flex align-items-start mt-5'}>
-                                    <IconDiscount2 stroke={1.5}/> <span className={'breadcrumb-item ms-2'}
-                                                                        style={{fontWeight: '500'}}
-                                                                        role={'button'}>ENTER PROMO CODE</span>
+                                <div className={'d-flex flex-column align-items-start mt-5'}>
+                                    {/*<IconDiscount2 stroke={1.5}/> <span className={'breadcrumb-item ms-2'}*/}
+                                    {/*                                    style={{fontWeight: '500'}}*/}
+                                    {/*                                    role={'button'}>ENTER PROMO CODE</span>*/}
+
+                                    <div className={'w-100'}>
+                                        <label htmlFor="promo_code" className="global-label">Enter promo code:</label>
+                                        <input id="promo_code"
+                                               type="email"
+                                               value={promoCode}
+                                               onChange={e => setPromoCode(e.target.value)}
+                                               className="form-control global-input"
+                                               placeholder="Promo code"/>
+                                    </div>
+
+                                    {applyButton}
                                 </div>
 
                                 <div className={'global-subtitle-2 mt-5'}>Payment types</div>
@@ -135,4 +177,8 @@ const mapStateToProps = (state: { cart: { order: Order } }) => ({
     order: state.cart.order
 })
 
-export default connect(mapStateToProps)(CartPage);
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setOrder: (order: Order) => dispatch(setOrder(order)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);

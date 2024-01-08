@@ -93,7 +93,7 @@ const CartProduct = (props: {
         </div>
     </div>;
 
-    const wishlistIcon = <IsProductInWishlist product_id={props.orderItem.id}/>;
+    const wishlistIcon = <IsProductInWishlist product_id={props.orderItem.product_id}/>;
 
     return (
         props.productStyle === 'small-cart' ? (
