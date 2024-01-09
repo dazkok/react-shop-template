@@ -1,4 +1,4 @@
-import React, {Dispatch, useEffect, useState} from 'react';
+import React, {Dispatch, SyntheticEvent, useEffect, useState} from 'react';
 import Layout from "../../components/Layout";
 import Breadcrumb from "../../components/page-containers/Breadcrumb";
 import {OrderItem} from "../../models/order-item";
@@ -11,11 +11,14 @@ import axios from "axios";
 import {PayMethod} from "../../models/pay-method";
 import {getCart} from "../../components/cart-modal/getCart";
 import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
+import AlertComponent from "../../components/alerts/Alerts";
 
 const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
     const [priceLoading, setPriceLoading] = useState(false);
     const [payMethods, setPayMethods] = useState<PayMethod[]>();
     const [promoCode, setPromoCode] = useState('');
+    const [promoCodeAlertMessage, setPromoCodeAlertMessage] = useState('');
+    const [promoCodeAlertType, setPromoCodeAlertType] = useState('');
 
     const breadcrumb = [
         {label: 'Home', link: '/'},
@@ -29,7 +32,6 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                     const {data} = await axios.get(`pay-methods`);
 
                     setPayMethods(data);
-                    console.log(payMethods);
                 } catch (error) {
                     console.log('');
                 }
@@ -42,14 +44,25 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
         applyButton = '';
     } else {
         applyButton = <button className="btn global-button global-secondary-button w-100 text-start mt-3"
+                              onClick={(e) => applyDiscountCode(e)}
                               type="button">Apply</button>;
     }
 
-    const applyDiscountCode = async () => {
+    const applyDiscountCode = async (e: SyntheticEvent) => {
+        e.preventDefault();
+
         try {
-            await axios.put('cart/discount-code', {
+            let response = await axios.put('cart/discount-code', {
                 discount_code: promoCode,
             });
+
+            if (response.data === 'success') {
+                setPromoCodeAlertMessage('Discount code applied successfully');
+                setPromoCodeAlertType('success');
+            } else {
+                setPromoCodeAlertMessage('Invalid promo code');
+                setPromoCodeAlertType('danger');
+            }
 
             const cartData = await getCart();
 
@@ -57,6 +70,9 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                 props.setOrder(cartData);
             }
         } catch (error) {
+            setPromoCodeAlertMessage('Error while applying discount code');
+            setPromoCodeAlertType('danger');
+
             setPriceLoading(false);
             console.error("Error while changing the quantity of products in the cart:", error);
         } finally {
@@ -136,10 +152,6 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                 </div>
 
                                 <div className={'d-flex flex-column align-items-start mt-5'}>
-                                    {/*<IconDiscount2 stroke={1.5}/> <span className={'breadcrumb-item ms-2'}*/}
-                                    {/*                                    style={{fontWeight: '500'}}*/}
-                                    {/*                                    role={'button'}>ENTER PROMO CODE</span>*/}
-
                                     <div className={'w-100'}>
                                         <label htmlFor="promo_code" className="global-label">Enter promo code:</label>
                                         <input id="promo_code"
@@ -151,6 +163,11 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                     </div>
 
                                     {applyButton}
+
+                                    <div className={'mt-3'}>
+                                        <AlertComponent message={promoCodeAlertMessage}
+                                                        alert_type={promoCodeAlertType}/>
+                                    </div>
                                 </div>
 
                                 <div className={'global-subtitle-2 mt-5'}>Payment types</div>
