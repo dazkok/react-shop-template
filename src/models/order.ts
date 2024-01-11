@@ -32,6 +32,11 @@ export class Order {
     invoice_city!: string;
     invoice_country!: string;
     invoice_zip!: string;
+    totalQuantity!: number;
     totalSum!: number;
+    originalSum!: number;
+    discountedSum!: number;
+    discountedDifference!: number;
+    finalSum!: number;
     order_items!: OrderItem[];
 }

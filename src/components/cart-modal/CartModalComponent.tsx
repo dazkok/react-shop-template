@@ -43,7 +43,7 @@ const CartModalComponent = (props: any) => {
                         <>
                             <div className="modal-header px-3 py-2">
                                 <div className="cart-title" id="cartModalLabel">Products in the cart
-                                    ({props.order.order_items.length})
+                                    ({props.order.totalQuantity})
                                 </div>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
@@ -71,7 +71,7 @@ const CartModalComponent = (props: any) => {
                                                 <div className={'row mb-2 w-100 cart-footer-text'}>
                                                     <div className={'col-6 text-start p-0'}>Value of products</div>
                                                     <div className={'col-6 text-end p-0'}>
-                                                        {props.order.totalSum.toString().replace('.', ',')} zł
+                                                        {props.order.finalSum.toFixed(2).toString().replace('.', ',')} zł
                                                     </div>
                                                 </div>
                                                 <div className={'row mb-3 w-100 cart-footer-text'}>

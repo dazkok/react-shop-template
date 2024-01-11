@@ -73,7 +73,7 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
                             <IconShoppingCart size={24} stroke={1.5}/>
                             {props.order.order_items ? (
                                 <div className={'header-cart-counter'}>
-                                    {props.order.order_items ? props.order.order_items.length : 0}
+                                    {props.order.totalQuantity}
                                 </div>
                             ) : ''}
                         </a>
