@@ -57,6 +57,7 @@ const Layout = (props: any) => {
 
                     props.setUser(data);
                 } catch (error) {
+                    console.log('');
                     props.setUser(undefined);
                 }
             }
