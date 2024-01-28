@@ -55,23 +55,28 @@ const Layout = (props: any) => {
                 try {
                     const {data} = await axios.get('user');
 
-                    props.setUser(data);
+                    if (data && data.message !== "Unauthenticated.") {
+                        props.setUser(data);
+                    } else {
+                        props.setUser(undefined);
+                    }
                 } catch (error) {
-                    console.log('');
                     props.setUser(undefined);
                 }
             }
         )();
-    }, []);
+    }, [props.setUser]);
 
     useEffect(() => {
         (
             async () => {
                 try {
-                    const wishlistData = await getWishlist();
+                    if (props.user) {
+                        const wishlistData = await getWishlist();
 
-                    if (wishlistData !== null) {
-                        props.setWishlist(wishlistData);
+                        if (wishlistData && wishlistData.length) {
+                            props.setWishlist(wishlistData);
+                        }
                     }
                 } catch (error) {
                     console.log('');
@@ -105,7 +110,7 @@ const Layout = (props: any) => {
     );
 };
 
-const mapStateToProps = (state: { user: { user: User }, wishlist: { wishlist: Product[]} }) => ({
+const mapStateToProps = (state: { user: { user: User }, wishlist: { wishlist: Product[] } }) => ({
     user: state.user.user,
     wishlist: state.wishlist.wishlist
 })

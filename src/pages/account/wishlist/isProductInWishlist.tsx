@@ -28,7 +28,7 @@ const IsProductInWishlist = (props: {
             .then(async response => {
                 const wishlistData = await getWishlist();
 
-                if (wishlistData !== null) {
+                if (wishlistData && wishlistData.length) {
                     props.setWishlist(wishlistData);
                 }
                 setLoading(false);

@@ -49,7 +49,7 @@ const CartModalComponent = (props: any) => {
                                         aria-label="Close"></button>
                             </div>
 
-                            {props.order.order_items.length > 0 ? (
+                            {props.order.totalQuantity > 0 ? (
                                 <>
                                     <div className="modal-body">
                                         {props.order.order_items.map((order_item: OrderItem) => (

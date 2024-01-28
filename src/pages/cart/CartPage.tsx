@@ -161,7 +161,7 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                                value={promoCode}
                                                onChange={e => setPromoCode(e.target.value)}
                                                className="form-control global-input"
-                                               placeholder="Promo code"/>
+                                               placeholder={props.order.discount_code ? 'Applied: ' + props.order.discount_code : 'Promo code'}/>
                                     </div>
 
                                     {applyButton}

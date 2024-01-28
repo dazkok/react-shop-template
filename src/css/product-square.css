@@ -62,7 +62,7 @@
 }
 
 .product-square-image {
-    min-height: 268px;
+    /*min-height: 268px;*/
     object-fit: contain;
 }
 
