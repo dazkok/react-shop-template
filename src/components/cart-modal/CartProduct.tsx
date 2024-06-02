@@ -99,19 +99,23 @@ const CartProduct = (props: {
         props.productStyle === 'small-cart' ? (
             <div className={'row mb-3'}>
                 <div className={'col-4'}>
-                    <img className={'object-fit-contain'}
-                         src={`http://localhost:8010/images/${props.orderItem.product.image.image}`}
-                         alt={props.orderItem.product.image.alt}
-                         loading={'lazy'}
-                         width={'100%'}
-                    />
+                    <a href={`/p/${props.orderItem.product.link}`}>
+                        <img className={'object-fit-contain'}
+                             src={`http://localhost:8010/images/${props.orderItem.product.image ? props.orderItem.product.image.image : 'placeholder.svg'}`}
+                             alt={props.orderItem.product.image ? props.orderItem.product.image.alt : ''}
+                             loading={'lazy'}
+                             width={'100%'}
+                        />
+                    </a>
                 </div>
 
                 <div className={'col-6 text-start ps-0 d-flex flex-column justify-content-between'}>
                     <div>
-                        <div className={'square-product-title'}>
-                            {props.orderItem.product.title}
-                        </div>
+                        <a style={{textDecoration: "none"}} href={`/p/${props.orderItem.product.link}`}>
+                            <div className={'square-product-title'}>
+                                {props.orderItem.product.title}
+                            </div>
+                        </a>
 
                         {props.orderItem.product.promo_price ? (
                             <>
@@ -156,12 +160,14 @@ const CartProduct = (props: {
                     <div style={{border: '1px solid black'}}>
                         <div className={'row'}>
                             <div className={'col-4 pe-0'}>
-                                <img className={'object-fit-contain'}
-                                     src={`http://localhost:8010/images/${props.orderItem.product.image.image}`}
-                                     alt={props.orderItem.product.image.alt}
-                                     loading={'lazy'}
-                                     width={'100%'}
-                                />
+                                <a href={`/p/${props.orderItem.product.link}`}>
+                                    <img className={'object-fit-contain'}
+                                         src={`http://localhost:8010/images/${props.orderItem.product.image ? props.orderItem.product.image.image : 'placeholder.svg'}`}
+                                         alt={props.orderItem.product.image ? props.orderItem.product.image.alt : ''}
+                                         loading={'lazy'}
+                                         width={'100%'}
+                                    />
+                                </a>
                             </div>
 
                             <div className={'col-8 text-start ps-0'}>
@@ -169,9 +175,12 @@ const CartProduct = (props: {
                                     <div className={'col-9'}>
                                         <div className={'py-3 px-4 d-flex flex-column justify-content-between h-100'}>
                                             <div>
-                                                <div className={'square-product-title'}>
-                                                    {props.orderItem.product.title}
-                                                </div>
+                                                <a style={{textDecoration: "none"}}
+                                                   href={`/p/${props.orderItem.product.link}`}>
+                                                    <div className={'square-product-title'}>
+                                                        {props.orderItem.product.title}
+                                                    </div>
+                                                </a>
                                                 <div
                                                     className="square-product-category mt-1">{props.orderItem.product.category?.title}</div>
 
@@ -207,7 +216,10 @@ const CartProduct = (props: {
                                                                }
                                                            })
                                                    )}/>
-                                        <IconHeart stroke={1.5} color={'#000'} className={'me-3'}/>
+                                        <div className={'position-relative'} style={{marginRight: '6px'}}>
+                                            {wishlistIcon}
+                                        </div>
+                                        {/*<IconHeart stroke={1.5} color={'#000'} className={'me-3'}/>*/}
                                     </div>
                                 </div>
                             </div>

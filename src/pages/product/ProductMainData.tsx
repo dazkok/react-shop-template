@@ -1,6 +1,6 @@
 import React, {Dispatch, SyntheticEvent} from 'react';
 import {Product} from "../../models/product";
-import {IconCalendarClock, IconHeart, IconThumbUp, IconTruckDelivery} from "@tabler/icons-react";
+import {IconCalendarClock, IconHeart, IconInfoSquareRounded, IconThumbUp, IconTruckDelivery} from "@tabler/icons-react";
 import axios from "axios";
 import {getCart} from "../../components/cart-modal/getCart";
 import {Order} from "../../models/order";
@@ -66,6 +66,7 @@ const ProductMainData = (props: { product: Product, setOrder: Function }) => {
 
             <div className={'d-flex justify-content-start align-items-center mt-4 w-100'}>
                 <button type={'button'}
+                        disabled={props.product.quantity < 1}
                         onClick={(e) => addProductToCart(e, props.product.id)}
                         className={'btn global-button product-page-cart-button me-2'}>
                     Add to cart
@@ -79,12 +80,25 @@ const ProductMainData = (props: { product: Product, setOrder: Function }) => {
 
             <div className={'d-flex flex-column mt-4 text-start product-thumbs'}>
                 <div className={'row d-flex align-items-center'}>
-                    <div className={'col-1'}>
-                        <IconThumbUp size={24} stroke={1.5}/>
-                    </div>
-                    <div className={'col-11'}>
-                        available
-                    </div>
+                    {props.product.quantity > 0 ?
+                        <>
+                            <div className={'col-1'}>
+                                <IconThumbUp size={24} stroke={1.5}/>
+                            </div>
+                            <div className={'col-11'}>
+                                <b>available</b>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <div className={'col-1'}>
+                                <IconInfoSquareRounded size={24} stroke={1.5} style={{color: "#e32b2b"}}/>
+                            </div>
+                            <div className={'col-11'} style={{color: "#e32b2b"}}>
+                                <b>out of stock</b>
+                            </div>
+                        </>
+                    }
                 </div>
                 <div className={'row my-2 d-flex align-items-center'}>
                     <div className={'col-1'}>

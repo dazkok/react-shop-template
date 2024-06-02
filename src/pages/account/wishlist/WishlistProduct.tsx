@@ -72,8 +72,8 @@ const WishlistProduct = (props: { product: Product, setOrder: Function, setWishl
                 <div>
                     <div className={'position-relative'}>
                         <img className={'product-square-image'}
-                             src={`http://localhost:8010/images/${props.product.image.image}`}
-                             alt={''}
+                             src={`http://localhost:8010/images/${props.product.image ? props.product.image.image : 'placeholder.svg'}`}
+                             alt={`${props.product.image ? props.product.image.alt : ''}`}
                              loading={'lazy'}
                              width={'100%'}
                         />

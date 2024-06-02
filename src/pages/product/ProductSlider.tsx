@@ -54,7 +54,7 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                 modules={[FreeMode, Navigation, Thumbs, Pagination]}
                 className="product-images-slider-thumbs mt-3"
             >
-                {props.images ? props.images.map((image) => (
+                {props.images && props.images.length > 1 ? props.images.map((image) => (
                     <SwiperSlide key={image.id} className={'product-images-thumb-item'}>
                         <img src={`http://localhost:8010/images/${image.image}`}
                              alt={''}
