@@ -62,8 +62,9 @@
 }
 
 .product-square-image {
-    /*min-height: 268px;*/
-    object-fit: contain;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    object-fit: cover;
 }
 
 .product-square-normal-price {

@@ -41,6 +41,7 @@
 .product-page-image {
     min-height: 500px;
     max-height: 747px;
+    cursor: zoom-in;
 }
 
 .product-thumbs {

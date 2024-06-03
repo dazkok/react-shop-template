@@ -12,60 +12,78 @@ import {FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
 
 import {Swiper as SwiperType} from 'swiper';
 import {ProductImage} from "../../models/product-image";
+import ImageZoomModal from "../../components/modals/ImageZoomModal";
 
 const ProductSlider = (props: { images: ProductImage[] | null }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+    const [zoomImage, setZoomImage] = useState('');
 
     return (
-        <>
-            <Swiper
-                style={{
-                    '--swiper-navigation-color': '#fff',
-                    '--swiper-pagination-color': '#fff',
-                }}
-                spaceBetween={10}
-                lazy={'true'}
-                navigation={true}
-                thumbs={{swiper: thumbsSwiper?.destroyed ? null : thumbsSwiper}}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="product-images-slider"
-            >
-                {props.images ? props.images.map((image) => (
-                    <SwiperSlide key={image.id}>
-                        <img src={`http://localhost:8010/images/${image.image}`}
-                             alt={''}
-                             width={'100%'}
-                             height={'auto'}
-                             className={'object-fit-contain product-page-image'}
-                             loading={'lazy'}/>
-                    </SwiperSlide>
-                )) : ''}
-            </Swiper>
+        props.images && props.images.length > 0 ?
+            <>
+                <Swiper
+                    style={{
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                    }}
+                    spaceBetween={10}
+                    lazy={'true'}
+                    navigation={true}
+                    thumbs={{swiper: thumbsSwiper?.destroyed ? null : thumbsSwiper}}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="product-images-slider"
+                >
+                    {props.images ? props.images.map((image) => (
+                        <SwiperSlide key={image.id}>
+                            <img src={`http://localhost:8010/images/${image ? image.image : 'placeholder.svg'}`}
+                                 alt={`${image.alt}`}
+                                 data-bs-toggle="modal"
+                                 data-bs-target="#imageZoomModal"
+                                 width={'100%'}
+                                 height={'auto'}
+                                 className={'object-fit-contain product-page-image'}
+                                 loading={'lazy'}
+                                onClick={() => setZoomImage(image ? image.image : 'placeholder.svg')}
+                            />
+                        </SwiperSlide>
+                    )) : ''}
+                </Swiper>
 
-            <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={5}
-                slidesPerView={"auto"}
-                freeMode={true}
-                watchSlidesProgress={true}
-                pagination={{
-                    type: 'progressbar'
-                }}
-                modules={[FreeMode, Navigation, Thumbs, Pagination]}
-                className="product-images-slider-thumbs mt-3"
-            >
-                {props.images && props.images.length > 1 ? props.images.map((image) => (
-                    <SwiperSlide key={image.id} className={'product-images-thumb-item'}>
-                        <img src={`http://localhost:8010/images/${image.image}`}
-                             alt={''}
-                             width={'auto'}
-                             height={'100px'}
-                             className={'object-fit-contain'}
-                             loading={'lazy'}/>
-                    </SwiperSlide>
-                )) : ''}
-            </Swiper>
-        </>
+                <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={5}
+                    slidesPerView={"auto"}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    pagination={{
+                        type: 'progressbar'
+                    }}
+                    modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                    className="product-images-slider-thumbs mt-3"
+                >
+                    {props.images && props.images.length > 1 ? props.images.map((image) => (
+                        <SwiperSlide key={image.id} className={'product-images-thumb-item'}>
+                            <img src={`http://localhost:8010/images/${image.image ? image.image : 'placeholder.svg'}`}
+                                 alt={`${image.alt}`}
+                                 width={'auto'}
+                                 height={'100px'}
+                                 className={'object-fit-contain'}
+                                 loading={'lazy'}/>
+                        </SwiperSlide>
+                    )) : ''}
+                </Swiper>
+
+                <ImageZoomModal image={zoomImage}/>
+            </>
+            :
+            <>
+                <img className={'product-square-image'}
+                     src={`http://localhost:8010/images/placeholder.svg`}
+                     alt={''}
+                     loading={'lazy'}
+                     width={'100%'}
+                />
+            </>
     );
 };
 
