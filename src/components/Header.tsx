@@ -71,7 +71,7 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
                            data-bs-toggle="modal"
                            data-bs-target="#cartModal">
                             <IconShoppingCart size={24} stroke={1.5}/>
-                            {props.order.order_items ? (
+                            {props.order && props.order.order_items ? (
                                 <div className={'header-cart-counter'}>
                                     {props.order.totalQuantity}
                                 </div>

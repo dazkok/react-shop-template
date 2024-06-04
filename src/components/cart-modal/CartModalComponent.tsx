@@ -43,13 +43,13 @@ const CartModalComponent = (props: any) => {
                         <>
                             <div className="modal-header px-3 py-2">
                                 <div className="cart-title" id="cartModalLabel">Products in the cart
-                                    ({props.order.totalQuantity})
+                                    ({props.order ? props.order.totalQuantity : ''})
                                 </div>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
 
-                            {props.order.totalQuantity > 0 ? (
+                            {props.order && props.order.totalQuantity > 0 ? (
                                 <>
                                     <div className="modal-body">
                                         {props.order.order_items.map((order_item: OrderItem) => (
