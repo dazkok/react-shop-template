@@ -16,7 +16,11 @@ import ImageZoomModal from "../../components/modals/ImageZoomModal";
 
 const ProductSlider = (props: { images: ProductImage[] | null }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
-    const [zoomImage, setZoomImage] = useState('');
+    const [zoomImageIndex, setZoomImageIndex] = useState<number | 0>(0);
+
+    const handleZoomImage = (index: number) => {
+        setZoomImageIndex(index);
+    };
 
     return (
         props.images && props.images.length > 0 ?
@@ -33,7 +37,7 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                     modules={[FreeMode, Navigation, Thumbs]}
                     className="product-images-slider"
                 >
-                    {props.images ? props.images.map((image) => (
+                    {props.images ? props.images.map((image, index) => (
                         <SwiperSlide key={image.id}>
                             <img src={`http://localhost:8010/images/${image ? image.image : 'placeholder.svg'}`}
                                  alt={`${image.alt}`}
@@ -43,7 +47,7 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                                  height={'auto'}
                                  className={'object-fit-contain product-page-image'}
                                  loading={'lazy'}
-                                onClick={() => setZoomImage(image ? image.image : 'placeholder.svg')}
+                                 onClick={() => handleZoomImage(index)}
                             />
                         </SwiperSlide>
                     )) : ''}
@@ -73,7 +77,13 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                     )) : ''}
                 </Swiper>
 
-                <ImageZoomModal image={zoomImage}/>
+                {/*{zoomImageIndex !== null && (*/}
+                    <ImageZoomModal
+                        images={props.images}
+                        currentIndex={zoomImageIndex}
+                        setCurrentIndex={setZoomImageIndex}
+                    />
+                {/*)}*/}
             </>
             :
             <>
