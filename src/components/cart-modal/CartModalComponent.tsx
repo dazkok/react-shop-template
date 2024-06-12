@@ -6,6 +6,7 @@ import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
 import {connect} from "react-redux";
 import {OrderItem} from "../../models/order-item";
 import {getCart} from "./getCart";
+import AlertComponent from "../alerts/Alerts";
 
 const CartModalComponent = (props: any) => {
     const [loading, setLoading] = useState(true);
@@ -56,12 +57,17 @@ const CartModalComponent = (props: any) => {
                                             <CartProduct key={order_item.id} orderItem={order_item}
                                                          setPriceLoading={setPriceLoading} productStyle={'small-cart'}/>
                                         ))}
+                                        {props.order.cartWasChanged ?
+                                            <AlertComponent alert_type="danger"
+                                                            message={'Niektóre produkty z twojego koszyku zostały zmienione lub usunięte.'}/>
+                                            : ''
+                                        }
                                     </div>
 
                                     <div className="modal-footer d-flex flex-column">
                                         {priceLoading ? (
                                             <div
-                                                 className={'d-flex align-items-center justify-content-center py-3 mb-2'}>
+                                                className={'d-flex align-items-center justify-content-center py-3 mb-2'}>
                                                 <div className="spinner-border" role="status">
                                                     <span className="visually-hidden">Loading...</span>
                                                 </div>

@@ -1,5 +1,6 @@
 import {Category} from "./category";
 import {ProductImage} from "./product-image";
+import {PageElement} from "./element";
 
 export interface Product {
     id: number;
@@ -17,4 +18,6 @@ export interface Product {
     category: Category;
     image: ProductImage;
     images: ProductImage[];
+    descriptions: PageElement[];
+    details: PageElement[];
 }

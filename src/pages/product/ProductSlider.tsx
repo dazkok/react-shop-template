@@ -77,13 +77,11 @@ const ProductSlider = (props: { images: ProductImage[] | null }) => {
                     )) : ''}
                 </Swiper>
 
-                {/*{zoomImageIndex !== null && (*/}
-                    <ImageZoomModal
-                        images={props.images}
-                        currentIndex={zoomImageIndex}
-                        setCurrentIndex={setZoomImageIndex}
-                    />
-                {/*)}*/}
+                <ImageZoomModal
+                    images={props.images}
+                    currentIndex={zoomImageIndex}
+                    setCurrentIndex={setZoomImageIndex}
+                />
             </>
             :
             <>

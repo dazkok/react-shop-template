@@ -38,5 +38,6 @@ export class Order {
     discountedSum!: number;
     discountedDifference!: number;
     finalSum!: number;
+    cartWasChanged!: boolean;
     order_items!: OrderItem[];
 }

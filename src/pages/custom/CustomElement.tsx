@@ -43,6 +43,17 @@ const CustomElement = (props: { element: PageElement }) => {
                         <div className={'global-text'} dangerouslySetInnerHTML={{__html: props.element.text}}/>
                     </div>
                 </>
+            ) : props.element.style === 'product-detail' ? (
+                <div className={'row'}>
+                    <div className={'col-4 d-flex align-items-start flex-column justify-content-center'}>
+                        <b>{props.element.title}</b>
+                    </div>
+                    <div className={'col-8 d-flex align-items-start flex-column justify-content-center'}>
+                        <div className={''}>
+                            {props.element.additional_field}
+                        </div>
+                    </div>
+                </div>
             ) : 'Style not found'}
         </>
     );

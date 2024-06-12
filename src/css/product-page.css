@@ -87,3 +87,17 @@
 .accordion-item:first-of-type {
     border-radius: 0;
 }
+
+.product-detail {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 0.875rem;
+}
+
+.product-detail:nth-child(2n-1) {
+    background-color: #eceff1;
+}
+
+.product-detail:last-child {
+    margin-bottom: 1rem;
+}

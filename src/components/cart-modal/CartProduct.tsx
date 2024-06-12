@@ -65,28 +65,33 @@ const CartProduct = (props: {
     );
 
     const updateItemQuantity = (newQuantity: number) => {
-        props.setPriceLoading(true);
-
         if (newQuantity > 0 && newQuantity <= props.orderItem.product.quantity) {
+            props.setPriceLoading(true);
+
             quantityRef.current = newQuantity;
             props.updateQuantity(props.orderItem.id, newQuantity);
+
+            debouncedUpdateItemQuantityAxios();
         }
     };
 
+    const isDecrementValid = (quantity: number) => quantity > 0;
+    const isIncrementValid = (quantity: number) => quantity <= props.orderItem.product.quantity;
+
     const quantityButtons = <div className={'d-flex'}>
-        <div role={'button'} className={'minus-button'}>
+        <div role={'button'} className={'minus-button'}
+             style={{backgroundColor: isDecrementValid(props.orderItem.quantity - 1) ? 'transparent' : 'lightgray'}}>
             <IconMinus stroke={1.5} color={'black'}
                        onClick={() => {
-                           debouncedUpdateItemQuantityAxios();
                            updateItemQuantity(props.orderItem.quantity - 1);
                        }}
             />
         </div>
         <div className={'count-field'}>{props.orderItem.quantity}</div>
-        <div role={'button'} className={'plus-button'}>
+        <div role={'button'} className={'plus-button'}
+             style={{backgroundColor: isIncrementValid(props.orderItem.quantity + 1) ? 'transparent' : 'lightgray'}}>
             <IconPlus stroke={1.5} color={'black'}
                       onClick={() => {
-                          debouncedUpdateItemQuantityAxios();
                           updateItemQuantity(props.orderItem.quantity + 1);
                       }}
             />

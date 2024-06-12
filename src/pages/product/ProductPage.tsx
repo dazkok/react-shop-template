@@ -7,14 +7,12 @@ import {useParams} from "react-router-dom";
 import ProductSlider from "./ProductSlider";
 import ProductMainData from "./ProductMainData";
 import '../../css/product-page.css';
-import {PageElement} from "../../models/element";
 import CustomElement from "../custom/CustomElement";
 import PromotionSection from "../home/PromotionSection";
 
 const ProductPage = () => {
     const {link} = useParams();
     const [product, setProduct] = useState<Product>();
-    const [descriptions, setDescriptions] = useState<PageElement[]>([]);
     const [loading, setLoading] = useState(true);
     const [productNotFound, setProductNotFound] = useState(false);
 
@@ -25,6 +23,7 @@ const ProductPage = () => {
                     const {data} = await axios.get(`products/${link}`);
 
                     setProduct(data);
+                    setLoading(false);
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         if (error.response?.status === 404) {
@@ -40,24 +39,6 @@ const ProductPage = () => {
             }
         )();
     }, [link]);
-
-    useEffect(() => {
-        if (product) {
-            (
-                async () => {
-                    try {
-                        const {data} = await axios.get(`elements/product-${product.id}`);
-
-                        setDescriptions(data);
-                        setLoading(false);
-                    } catch (error) {
-                        console.log('');
-                        setLoading(false);
-                    }
-                }
-            )();
-        }
-    }, [product]);
 
     const breadcrumb = [
         {label: 'Home', link: '/'},
@@ -114,8 +95,8 @@ const ProductPage = () => {
                                                 </div>
                                             </div>
                                         ) : (
-                                            Array.isArray(descriptions) ? (
-                                                descriptions.map((description) => (
+                                            Array.isArray(product?.descriptions) ? (
+                                                product?.descriptions.map((description) => (
                                                     <div className={'row my-3'} key={description.id}>
                                                         <CustomElement element={description}/>
                                                     </div>
@@ -134,13 +115,30 @@ const ProductPage = () => {
                                             data-bs-toggle="collapse"
                                             data-bs-target="#collapseTwo" aria-expanded="false"
                                             aria-controls="collapseTwo">
-                                        Details
+                                        Specification
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" className="accordion-collapse collapse"
                                      aria-labelledby="headingTwo">
-                                    <div className="accordion-body">
-                                        // product details
+                                    <div className="accordion-body py-0">
+                                        {loading ? (
+                                            <div style={{height: '500px'}}
+                                                 className={'d-flex align-items-center justify-content-center'}>
+                                                <div className="spinner-border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            Array.isArray(product?.details) ? (
+                                                product?.details.map((detail) => (
+                                                    <div className={'row product-detail text-start product-thumbs'} key={detail.id}>
+                                                        <CustomElement element={detail}/>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div>Page elements are not available</div>
+                                            )
+                                        )}
                                     </div>
                                 </div>
                             </div>
