@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Category} from "../models/category";
-import {IconHeart, IconMenu2, IconSearch, IconShoppingCart, IconUser} from "@tabler/icons-react";
+import {IconHeart, IconMenu2, IconSearch, IconShoppingCart, IconUser, IconX} from "@tabler/icons-react";
 import {Order} from "../models/order";
 import {connect} from "react-redux";
 import {User} from "../models/user";
 import {Product} from "../models/product";
+import axios from "axios";
+import ProductSquare from "./products/ProductSquare";
 
 const Header = (props: { categories: Category[], order: Order, user: User, wishlist: Product[] }) => {
     const [userLink, setUserLink] = useState('#');
     const [wishlistLink, setWishlistLink] = useState('/login');
+    const [searchInput, setSearchInput] = useState('');  // State for search input
+    const [searchResults, setSearchResults] = useState<Product[]>();
 
     useEffect(() => {
         if (props.user?.id) {
@@ -19,6 +23,23 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
             setWishlistLink('/login');
         }
     }, [props.user?.first_name]);
+
+    const handleSearchInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            setSearchInput(event.target.value);
+            const {data} = await axios.get('search/' + searchInput);
+
+            setSearchResults(data);
+            console.log(searchResults)
+        } catch (error) {
+            console.log('');
+        }
+    }
+
+    const clearSearchInput = () => {
+        setSearchInput('');
+        setSearchResults([]);
+    }
 
     return (
         <header className="border-bottom bg-white py-1 py-md-0">
@@ -43,10 +64,19 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
                     </ul>
 
                     <div className={'col-10 col-xl-3 col-xxl-3 d-flex align-items-center justify-content-end'}>
-                        <input type="text"
-                               className="header-search-field d-none d-sm-block"
-                               placeholder="Search"
-                               aria-label="Search"/>
+                        <div className={'position-relative'}>
+                            <input type="text"
+                                   className="header-search-field d-none d-sm-block"
+                                   placeholder="Search"
+                                   value={searchInput}
+                                   onInput={handleSearchInput}
+                                   aria-label="Search"/>
+                            {searchInput && (
+                                <div role={'button'} className="clear-search-btn" onClick={clearSearchInput}>
+                                    <IconX size={16} stroke={1.5}/>
+                                </div>
+                            )}
+                        </div>
 
                         <a href={'#'} role="button"
                            className={'header-icon-link d-flex d-sm-none'}>
@@ -88,6 +118,23 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
 
                 </div>
             </div>
+
+            {searchResults && searchResults.length > 0 ? (
+                <>
+                    <div className={'container-fluid px-3 px-xl-4 px-xxl-5 border-top'}>
+                        <div className={'row pt-4'}>
+                            {searchResults.map((product) => (
+                                <div key={product.id} className={'col-4 col-lg-3 col-xxl-2'}>
+                                    <ProductSquare key={product.id} product={product} maxWidth={false}/>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <>
+                </>
+            )}
         </header>
     );
 };

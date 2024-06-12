@@ -24,8 +24,8 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
                className={'promotion-product-square'} style={{maxWidth: props.maxWidth ? '270px' : 'none'}}>
                 <div className={'position-relative'}>
                     <img className={'product-square-image'}
-                         src={`http://localhost:8010/images/${props.product.images[0] ? props.product.images[0].image : 'placeholder.svg'}`}
-                         alt={props.product.images[0] ? props.product.images[0].alt : ''}
+                         src={`http://localhost:8010/images/${props.product.image ? props.product.image.image : 'placeholder.svg'}`}
+                         alt={props.product.image ? props.product.image.alt : ''}
                          loading={'lazy'}
                          width={'100%'}
                     />

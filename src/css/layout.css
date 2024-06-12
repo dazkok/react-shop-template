@@ -70,6 +70,16 @@ input[type="number"] {
     outline: none;
 }
 
+.clear-search-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    right: 10px;
+    top: 44%;
+    transform: translateY(-50%);
+}
+
 .header-icon-link {
     color: black;
     display: flex;
