@@ -59,9 +59,6 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
             if (response.data === 'success') {
                 setPromoCodeAlertMessage('Discount code applied successfully');
                 setPromoCodeAlertType('success');
-            } else {
-                setPromoCodeAlertMessage('Invalid promo code');
-                setPromoCodeAlertType('danger');
             }
 
             const cartData = await getCart();
@@ -70,8 +67,18 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                 props.setOrder(cartData);
             }
         } catch (error) {
-            setPromoCodeAlertMessage('Error while applying discount code');
-            setPromoCodeAlertType('danger');
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 404) {
+                    setPromoCodeAlertMessage('Invalid promo code');
+                    setPromoCodeAlertType('danger');
+                } else {
+                    setPromoCodeAlertMessage('Error while applying discount code');
+                    setPromoCodeAlertType('danger');
+                }
+            } else {
+                setPromoCodeAlertMessage('An unexpected error occurred');
+                setPromoCodeAlertType('danger');
+            }
 
             setPriceLoading(false);
             console.error("Error while changing the quantity of products in the cart:", error);
@@ -94,7 +101,7 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                 <>
                                     <div className={'global-text mb-4'}>
                                         TOTAL
-                                        ({props.order.totalQuantity} products) <b>{props.order.totalSum.toString().replace('.', ',')} zł</b>
+                                        ({props.order.totalQuantity} {props.order.totalQuantity > 1 ? 'products' : 'product'}) <b>{props.order.totalSum.toString().replace('.', ',')} zł</b>
                                         <br/>
                                         The products in your cart are not reserved - finalize the transaction to order
                                         them.
@@ -134,16 +141,24 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                 <div className={'global-title-3 text-uppercase mt-5'}>Order summary</div>
 
                                 <div className={'row global-text mt-4'}>
-                                    <div className={'col-6'}>{props.order.totalQuantity} products</div>
+                                    <div className={'col-6'}>{props.order.totalQuantity} {props.order.totalQuantity > 1 ? 'products' : 'product'}</div>
                                     <div
                                         className={'col-6 text-end'}>{props.order.totalSum.toString().replace('.', ',')} zł
                                     </div>
                                     <div className={'col-6'}>Original price</div>
-                                    <div className={'col-6 text-end'}>{props.order.originalSum.toString().replace('.', ',')} zł</div>
+                                    <div
+                                        className={'col-6 text-end'}>{props.order.originalSum.toString().replace('.', ',')} zł
+                                    </div>
                                     <div className={'col-6'}>Delivery</div>
                                     <div className={'col-6 text-end'}>Free</div>
-                                    <div className={'col-6'} style={{color: "767677"}}>Discount</div>
-                                    <div className={'col-6 text-end'} style={{color: "767677"}}>{props.order.discountedDifference.toFixed(2).toString().replace('.', ',')} zł</div>
+                                    {props.order.discountedDifference ?
+                                        <>
+                                            <div className={'col-6'} style={{color: "767677"}}>Discount</div>
+                                            <div className={'col-6 text-end'}
+                                                 style={{color: "767677"}}>{props.order.discountedDifference.toFixed(2).toString().replace('.', ',')} zł
+                                            </div>
+                                        </> : ''
+                                    }
                                 </div>
 
                                 <div className={'row mt-3'} style={{fontWeight: '500'}}>

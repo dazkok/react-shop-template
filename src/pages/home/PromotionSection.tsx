@@ -45,7 +45,7 @@ const PromotionSection = () => {
                 </div>
             ) : (
                 <Swiper
-                    style={{paddingBottom: '48px'}}
+                    style={{paddingBottom: '24px'}}
                     slidesPerView={'auto'}
                     slidesPerGroup={2}
                     slidesPerGroupSkip={1}

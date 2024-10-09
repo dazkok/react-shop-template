@@ -48,7 +48,7 @@ const HomeSlider = () => {
                     loop={true}
                     slidesPerView={1}
                     modules={[Autoplay, EffectFade]}
-                    className={''}
+                    className={'home-swiper w-100'}
                 >
                     {slides.map((slide) => (
                         <SwiperSlide key={slide.id}>

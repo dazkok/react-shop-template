@@ -120,6 +120,10 @@ input[type="number"] {
     color: black;
 }
 
+.container-fhd {
+    max-width: 1920px;
+}
+
 .page-logo {
     margin-top: -30px;
 }

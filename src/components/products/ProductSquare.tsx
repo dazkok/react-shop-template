@@ -17,6 +17,7 @@ const ProductSquare = (props: { product: Product, maxWidth: boolean | undefined 
     }
 
     const wishlistIcon = <IsProductInWishlist product_id={props.product.id}/>;
+    console.log();
 
     return (
         <div className={'position-relative'}>
