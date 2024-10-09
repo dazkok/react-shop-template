@@ -27,10 +27,13 @@ const Header = (props: { categories: Category[], order: Order, user: User, wishl
     const handleSearchInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
             setSearchInput(event.target.value);
-            const {data} = await axios.get('search/' + searchInput);
 
-            setSearchResults(data);
-            console.log(searchResults)
+            if (event.target.value.length > 3) {
+                const {data} = await axios.get('search/' + event.target.value);
+                setSearchResults(data);
+            } else {
+                setSearchResults([]);
+            }
         } catch (error) {
             console.log('');
         }
