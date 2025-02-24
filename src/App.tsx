@@ -11,6 +11,7 @@ import AccountDataPage from "./pages/account/account-data/AccountDataPage";
 import WishlistPage from "./pages/account/wishlist/WishlistPage";
 import CartPage from "./pages/cart/CartPage";
 import RegisterPage from "./pages/login/RegisterPage";
+import CheckoutPage from "./pages/checkout/CheckoutPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path={'/login'} element={<LoginPage/>}/>
           <Route path={'/register'} element={<RegisterPage/>}/>
           <Route path={'/cart'} element={<CartPage/>}/>
+          <Route path={'/checkout'} element={<CheckoutPage/>}/>
           <Route path={'/account'} element={<AccountDataPage/>}/>
           <Route path={'/account/addresses'} element={<AccountDataPage/>}/>
           <Route path={'/account/orders'} element={<AccountDataPage/>}/>

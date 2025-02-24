@@ -65,7 +65,7 @@ const ProductPage = () => {
                                 <div className={'col-lg-7'}>
                                     <ProductSlider images={product ? product.images : null}/>
                                 </div>
-                                <div className={'col-lg-5'}>
+                                <div className={'col-lg-5 mt-3 mt-lg-0'}>
                                     {product ? (
                                         <ProductMainData product={product}/>
                                     ) : ''}

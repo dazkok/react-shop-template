@@ -12,7 +12,7 @@ import {PayMethod} from "../../models/pay-method";
 import {getCart} from "../../components/cart-modal/getCart";
 import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
 import AlertComponent from "../../components/alerts/Alerts";
-import PriceSummary from "./PriceSummary";
+import PriceSummary from "../cart/PriceSummary";
 
 const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
     const [priceLoading, setPriceLoading] = useState(false);
@@ -23,7 +23,8 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
 
     const breadcrumb = [
         {label: 'Home', link: '/'},
-        {label: 'Cart', link: ''},
+        {label: 'Cart', link: '/cart'},
+        {label: 'Checkout', link: ''},
     ];
 
     useEffect(() => {
@@ -96,81 +97,30 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                 <div className={'row text-start'}>
                     <div className={'col-12 col-md-8'}>
                         <div className={'pe-lg-4'}>
-                            <h1 className={'global-title-1 mb-3'}>Your cart</h1>
+                            <h1 className={'global-title-1 mb-3'}>Shipping information</h1>
 
-                            {props.order && props.order.order_items?.length > 0 ? (
-                                <>
-                                    <div className={'global-text mb-4'}>
-                                        TOTAL
-                                        ({props.order.totalQuantity} {props.order.totalQuantity > 1 ? 'products' : 'product'}) <b>{props.order.totalSum.toString().replace('.', ',')} zł</b>
-                                        <br/>
-                                        The products in your cart are not reserved - finalize the transaction to order
-                                        them.
-                                    </div>
 
-                                    {props.order.order_items.map((order_item: OrderItem) => (
-                                        <CartProduct key={order_item.id} orderItem={order_item}
-                                                     setPriceLoading={setPriceLoading} productStyle={'main-cart'}/>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                    <div className="modal-body">
-                                        <div className={'text-start mt-5'}>
-                                            Your shopping cart is empty &#129402;<br/>
-                                            Add something!
-                                        </div>
-                                    </div>
-
-                                    <div className="modal-footer d-flex flex-column mt-4">
-                                        <a href="/"
-                                           className="btn global-button global-secondary-button w-100 text-start">Keep shopping
-                                        </a>
-                                    </div>
-                                </>
-                            )}
                         </div>
                     </div>
                     <div className={'col-12 col-md-4'}>
                         {props.order && props.order.order_items?.length > 0 ? (
                             <div className={'ps-lg-4 pe-lg-3'}>
-                                <a className="btn global-button w-100 text-start"
-                                   href={'/checkout'}>
-                                    Complete the transaction
-                                </a>
 
-                                <div className={'global-title-3 text-uppercase mt-5'}>Order summary</div>
+
+                                <div className={'global-title-3 text-uppercase mt-5'}>Your order</div>
 
                                 <PriceSummary/>
 
-                                <div className={'d-flex flex-column align-items-start mt-5'}>
-                                    <div className={'w-100'}>
-                                        <label htmlFor="promo_code" className="global-label">Enter promo code:</label>
-                                        <input id="promo_code"
-                                               type="email"
-                                               value={promoCode}
-                                               onChange={e => setPromoCode(e.target.value)}
-                                               className="form-control global-input"
-                                               placeholder={props.order.discount_code ? 'Applied: ' + props.order.discount_code : 'Promo code'}/>
-                                    </div>
+                                <hr className={'my-4'}/>
 
-                                    {applyButton}
-
-                                    <div className={'mt-3'}>
-                                        <AlertComponent message={promoCodeAlertMessage}
-                                                        alert_type={promoCodeAlertType}/>
-                                    </div>
-                                </div>
-
-                                <div className={'global-subtitle-2 mt-5'}>Payment types</div>
-                                <div className={'d-flex flex-wrap mt-3'}>
-                                    {payMethods?.map((payMethod) => (
-                                        <img key={payMethod.value}
-                                             className={'object-fit-contain mb-3 me-2'}
-                                             src={payMethod.brandImageUrl}
-                                             alt={payMethod.name} loading={'lazy'} height={'24px'}/>
-                                    ))}
-                                </div>
+                                {props.order && props.order.order_items?.length > 0 ? (
+                                    <>
+                                        {props.order.order_items.map((order_item: OrderItem) => (
+                                            <CartProduct key={order_item.id} orderItem={order_item}
+                                                         setPriceLoading={setPriceLoading} productStyle={'summary'}/>
+                                        ))}
+                                    </>
+                                ) : ''}
                             </div>
                         ) : ''}
                     </div>

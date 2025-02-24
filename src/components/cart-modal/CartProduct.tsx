@@ -159,7 +159,7 @@ const CartProduct = (props: {
                     {/*<IconHeart stroke={1.5} color={'#000'}/>*/}
                 </div>
             </div>
-        ) : (
+        ) : props.productStyle === 'main-cart' ? (
             <div className={'row mb-3'}>
                 <div className={'col-12'}>
                     <div style={{border: '1px solid black'}}>
@@ -229,6 +229,43 @@ const CartProduct = (props: {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        ) : (
+            <div className={'row mb-3'}>
+                <div className={'col-4'}>
+                    <a href={`/p/${props.orderItem.product.link}`}>
+                        <img className={'object-fit-contain'}
+                             src={`http://localhost:8010/images/${props.orderItem.product.image ? props.orderItem.product.image.image : 'placeholder.svg'}`}
+                             alt={props.orderItem.product.image ? props.orderItem.product.image.alt : ''}
+                             loading={'lazy'}
+                             width={'100%'}
+                        />
+                    </a>
+                </div>
+
+                <div className={'col-6 text-start ps-0 d-flex flex-column justify-content-between'}>
+                    <div>
+                        <a style={{textDecoration: "none"}} href={`/p/${props.orderItem.product.link}`}>
+                            <div className={'square-product-title'}>
+                                {props.orderItem.product.title}
+                            </div>
+                        </a>
+
+                        {props.orderItem.product.promo_price ? (
+                            <>
+                                <del className={'old-price'}>{productPrice} zł</del>
+                                &nbsp;
+                                <span className={'promo-price'}>{productPromoPrice} zł</span>
+                            </>
+                        ) : (
+                            <>
+                                <div
+                                    className={'product-square-normal-price'}>{productPrice} zł
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

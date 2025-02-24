@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {OrderItem} from "../../models/order-item";
 import {getCart} from "./getCart";
 import AlertComponent from "../alerts/Alerts";
+import PriceSummary from "../../pages/cart/PriceSummary";
 
 const CartModalComponent = (props: any) => {
     const [loading, setLoading] = useState(true);
@@ -74,21 +75,39 @@ const CartModalComponent = (props: any) => {
                                             </div>
                                         ) : (
                                             <>
-                                                <div className={'row mb-2 w-100 cart-footer-text'}>
-                                                    <div className={'col-6 text-start p-0'}>Value of products</div>
-                                                    <div className={'col-6 text-end p-0'}>
-                                                        {props.order.finalSum.toFixed(2).toString().replace('.', ',')} zł
-                                                    </div>
+                                                <div className={'row w-100 cart-footer-text'}>
+                                                    <div className={'col-6 text-start p-0'}>Value of {props.order.totalQuantity > 1 ? 'products' : 'product'} ({props.order.totalQuantity})</div>
+                                                    <div className={'col-6 text-end p-0'}>{props.order.originalSum.toString().replace('.', ',')} zł</div>
                                                 </div>
-                                                <div className={'row mb-3 w-100 cart-footer-text'}>
-                                                    <div className={'col-6 text-start p-0'}>Delivery cost</div>
-                                                    <div className={'col-6 text-end p-0'}>from 9,99 zł</div>
+
+                                                <div className={'row w-100 cart-footer-text'}>
+                                                    <div className={'col-6 text-start p-0'}>Special offers</div>
+                                                    <div className={'col-6 text-end p-0 promo-price'}>{props.order.totalDifference.toFixed(2).toString().replace('.', ',')} zł</div>
+                                                </div>
+
+                                                {props.order.discountedDifference ?
+                                                    <>
+                                                        <div className={'row w-100 cart-footer-text'}>
+                                                            <div className={'col-6 text-start p-0'}>Promo code discount</div>
+                                                            <div className={'col-6 text-end p-0 promo-price'}>{props.order.discountedDifference.toFixed(2).toString().replace('.', ',')} zł</div>
+                                                        </div>
+                                                    </> : ''
+                                                }
+
+                                                <div className={'row w-100 cart-footer-text'}>
+                                                    <div className={'col-6 text-start p-0'}>Delivery</div>
+                                                    <div className={'col-6 text-end p-0'}>Free</div>
+                                                </div>
+
+                                                <div className={'row mt-3 w-100'}>
+                                                    <div className={'col-6 text-start p-0'}>Total</div>
+                                                    <div className={'col-6 text-end p-0'}>{props.order.finalSum.toFixed(2).toString().replace('.', ',')} zł</div>
                                                 </div>
                                             </>
                                         )}
 
                                         <a href={'/cart'}
-                                           className="btn global-button w-100 text-start mb-2">Show cart</a>
+                                           className="btn global-button w-100 text-start mb-2 mt-4">Show cart</a>
                                         <button type="button"
                                                 className="btn global-button global-secondary-button w-100 text-start"
                                                 data-bs-dismiss="modal">Keep shopping
