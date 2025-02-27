@@ -1,12 +1,18 @@
 import React, {Dispatch, SyntheticEvent, useEffect, useState} from 'react';
 import {User} from "../../models/user";
 import axios from "axios";
-import {setUser} from "../../redux/actions/setUserAction";
 import {connect} from "react-redux";
 import AlertComponent from "../../components/alerts/Alerts";
 import {handleApiError} from "../../components/handlers/apiErrorHandler";
+import {Order} from "../../models/order";
+import {updateOrderMainData} from "../../redux/actions/cartActions";
+import {Navigate} from "react-router-dom";
 
-const PaymentDetailsForm = (props: { user: User | undefined, setUser: Function }) => {
+const OrderDetailsForm = (props: {
+    user: User | undefined,
+    order: Order,
+    updateOrderMainData: (mainData: Partial<Order>) => void
+}) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [address, setAddress] = useState('');
@@ -30,14 +36,27 @@ const PaymentDetailsForm = (props: { user: User | undefined, setUser: Function }
 
     const [dataFormErrors, setDataFormErrors] = useState<Record<string, string[]>>({});
 
+
+    const [redirect, setRedirect] = useState(false);
+
     useEffect(() => {
-        if (props.user) {
-            setFirstName(props.user.first_name);
-            setLastName(props.user.last_name);
-            setPhone(props.user.phone);
-            setEmail(props.user.email);
-        }
-    }, [props.user]);
+        setFirstName(props.order.first_name || props.user?.first_name || '');
+        setLastName(props.order.last_name || props.user?.last_name || '');
+        setAddress(props.order.address || '');
+        setAddressAdditional(props.order.address_additional || '');
+        setZip(props.order.zip || '');
+        setCity(props.order.city || '');
+        setSameAddress(props.order.same_address ?? true); // Якщо undefined, то true
+        setInvoiceFirstName(props.order.invoice_first_name || '');
+        setInvoiceLastName(props.order.invoice_last_name || '');
+        setInvoiceAddress(props.order.invoice_address || '');
+        setInvoiceZip(props.order.invoice_zip || '');
+        setInvoiceCity(props.order.invoice_city || '');
+        setPhone(props.order.phone || props.user?.phone || '');
+        setEmail(props.order.email || props.user?.email || '');
+        setWantInvoice(props.order.want_invoice || false);
+        setNip(props.order.nip || '');
+    }, [props.order, props.user]);
 
     const handleSaveButtonClick = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -62,10 +81,16 @@ const PaymentDetailsForm = (props: { user: User | undefined, setUser: Function }
                 want_invoice
             })
 
+            props.updateOrderMainData(data)
             setDataFormErrors({});
+            setRedirect(true);
         } catch (error: any) {
             handleApiError(error, setDataFormErrors);
         }
+    }
+
+    if (redirect) {
+        return <Navigate to={'/delivery-and-payment'}/>
     }
 
     return (
@@ -377,7 +402,7 @@ const mapStateToProps = (state: { user: { user: User } }) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setUser: (user: User) => dispatch(setUser(user)),
-})
+    updateOrderMainData: (mainData: Partial<Order>) => dispatch(updateOrderMainData(mainData)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentDetailsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderDetailsForm);

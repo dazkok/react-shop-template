@@ -7,7 +7,7 @@ const initialState = {
 
 export const cartReducer = (
     state = initialState,
-    action: { type: string, order: Order, orderItemId: number, quantity: number }
+    action: any
 ) => {
     switch (action.type) {
         case "SET_CART":
@@ -15,6 +15,11 @@ export const cartReducer = (
                 ...state,
                 order: action.order
             }
+        case 'UPDATE_ORDER_MAIN_DATA':
+            return {
+                ...state,
+                ...action.mainData
+            };
         case "UPDATE_QUANTITY":
             const updatedOrderItems = state.order.order_items.map((item: OrderItem) => {
                 if (item.id === action.orderItemId) {

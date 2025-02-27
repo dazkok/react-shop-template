@@ -12,26 +12,31 @@ export class Order {
     payed!: boolean;
     payu_order_nr!: string;
     payment_link!: string;
-    want_invoice!: boolean;
     remarks!: string;
     completed_at!: string;
     discount_code!: string;
     first_name!: string;
     last_name!: string;
     address!: string;
+    address_additional!: string;
     city!: string;
     country!: string;
     zip!: string;
+
     email!: string;
     phone!: string;
+
+    same_address!: boolean;
+    want_invoice!: boolean;
+    nip!: string;
+
     invoice_first_name!: string;
     invoice_last_name!: string;
-    invoice_company!: string;
-    invoice_nip!: string;
     invoice_address!: string;
     invoice_city!: string;
     invoice_country!: string;
     invoice_zip!: string;
+
     totalQuantity!: number;
     totalSum!: number;
     originalSum!: number;

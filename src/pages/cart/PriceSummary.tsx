@@ -1,13 +1,7 @@
-import React, {Dispatch} from 'react';
+import React from 'react';
 import {Order} from "../../models/order";
-import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
-import {connect} from "react-redux";
 
-const PriceSummary = (props: {
-    order: Order,
-    setOrder: Function,
-    updateQuantity: Function
-}) => {
+const PriceSummary = (props: { order: Order }) => {
     return (
         <>
             <div className={'row global-text'}>
@@ -57,13 +51,4 @@ const PriceSummary = (props: {
     );
 };
 
-const mapStateToProps = (state: { cart: { order: Order } }) => ({
-    order: state.cart.order
-})
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setOrder: (order: Order) => dispatch(setOrder(order)),
-    updateQuantity: (orderItemId: number, newQuantity: number) => dispatch(updateQuantity(orderItemId, newQuantity))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PriceSummary);
+export default (PriceSummary);

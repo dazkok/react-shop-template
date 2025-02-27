@@ -5,12 +5,11 @@ import {OrderItem} from "../../models/order-item";
 import CartProduct from "../../components/cart-modal/CartProduct";
 import {Order} from "../../models/order";
 import {connect} from "react-redux";
-import {IconDiscount2} from "@tabler/icons-react";
 import PromotionSection from "../home/PromotionSection";
 import axios from "axios";
 import {PayMethod} from "../../models/pay-method";
 import {getCart} from "../../components/cart-modal/getCart";
-import {setOrder, updateQuantity} from "../../redux/actions/cartActions";
+import {setOrder} from "../../redux/actions/cartActions";
 import AlertComponent from "../../components/alerts/Alerts";
 import PriceSummary from "./PriceSummary";
 
@@ -141,7 +140,7 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
 
                                 <div className={'global-subtitle text-uppercase mt-5'}>Order summary</div>
 
-                                <PriceSummary/>
+                                <PriceSummary order={props.order}/>
 
                                 <div className={'d-flex flex-column align-items-start mt-5'}>
                                     <div className={'w-100'}>
