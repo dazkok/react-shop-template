@@ -163,7 +163,7 @@ const RegisterPage = () => {
                             <button onClick={submit} className="btn global-button w-100" type="button">Register</button>
                         </div>
 
-                        <div className="w-100 px-md-5 mt-4 form-check text-start global-check">
+                        <div className="w-100 px-md-5 mt-4 form-check text-start global-check ps-0">
                             <input type="checkbox" className="form-check-input global-check-input" id="regulation"
                                    checked={regulation}
                                    onChange={e => setRegulation(e.target.checked)}/>

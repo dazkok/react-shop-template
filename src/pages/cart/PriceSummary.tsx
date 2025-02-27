@@ -10,7 +10,7 @@ const PriceSummary = (props: {
 }) => {
     return (
         <>
-            <div className={'row global-text mt-4'}>
+            <div className={'row global-text'}>
                 <div
                     className={'col-6 text-nowrap text-start'}>Value of {props.order.totalQuantity > 1 ? 'products' : 'product'} ({props.order.totalQuantity})</div>
                 <div

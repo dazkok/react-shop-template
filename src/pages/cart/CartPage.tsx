@@ -139,7 +139,7 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                                     Complete the transaction
                                 </a>
 
-                                <div className={'global-title-3 text-uppercase mt-5'}>Order summary</div>
+                                <div className={'global-subtitle text-uppercase mt-5'}>Order summary</div>
 
                                 <PriceSummary/>
 
