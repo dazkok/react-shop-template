@@ -348,6 +348,28 @@ main {
     outline: none;
 }
 
+.global-radio {
+    border-color: black;
+}
+
+.global-radio:checked {
+    background-color: black;
+    border: 3px solid white;
+    outline: 1px solid black;
+}
+
+.global-radio:focus {
+    box-shadow: none;
+}
+
+.global-radio:checked[type=radio] {
+    --bs-form-check-bg-image: none;
+}
+
+.collapsing {
+    margin: 0 !important;
+}
+
 @media (min-width: 1650px) {
     .col-xxxl-12 {
         width: 100%;

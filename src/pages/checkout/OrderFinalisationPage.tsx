@@ -5,6 +5,8 @@ import PromotionSection from "../home/PromotionSection";
 import OrderSummaryList from "./OrderSummaryList";
 import {Order} from "../../models/order";
 import {connect} from "react-redux";
+import PaymentSelect from "./PaymentSelect";
+import DeliverySelect from "./DeliverySelect";
 
 const OrderFinalisationPage = (props: { order: Order }) => {
     const breadcrumb = [
@@ -28,9 +30,12 @@ const OrderFinalisationPage = (props: { order: Order }) => {
                     <div className={'col-12 col-md-8'}>
                         <div className={'pe-lg-4'}>
                             <div className={'global-subtitle text-uppercase'}>Choose your method of delivery</div>
+                            <DeliverySelect order={props.order}/>
+
+                            <hr className={'my-4'}/>
 
                             <div className={'global-subtitle text-uppercase'}>Choose your payment method</div>
-
+                            <PaymentSelect order={props.order}/>
                         </div>
                     </div>
                     <div className={'col-12 col-md-4'}>

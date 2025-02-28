@@ -1,16 +1,16 @@
 import React, {Dispatch, SyntheticEvent, useEffect, useState} from 'react';
 import {connect} from "react-redux";
+import AlertComponent from "../../components/alerts/Alerts";
 import {handleApiError} from "../../components/handlers/apiErrorHandler";
 import {Order} from "../../models/order";
 import {updateOrderMainData} from "../../redux/actions/cartActions";
 import axios from "axios";
-import {PayMethod} from "../../models/pay-method";
 
-const PaymentSelect = (props: {
+const DeliverySelect = (props: {
     order: Order,
     updateOrderMainData: (mainData: Partial<Order>) => void
 }) => {
-    const [payMethods, setPayMethods] = useState<PayMethod[]>();
+    const [selectedPoint, setSelectedPoint] = useState<any>(null);
 
     const [first_name, setFirstName] = useState('');
 
@@ -36,19 +36,6 @@ const PaymentSelect = (props: {
         }
     }
 
-    useEffect(() => {
-        (
-            async () => {
-                try {
-                    const {data} = await axios.get(`pay-methods`);
-
-                    setPayMethods(data);
-                } catch (error) {
-                    console.log('');
-                }
-            }
-        )();
-    }, []);
 
     return (
         <>
@@ -56,20 +43,20 @@ const PaymentSelect = (props: {
                 <div className="form-check form-check-inline w-100 m-0">
                     <input className="form-check-input global-radio"
                            type="radio"
-                           name="payment_id"
-                           id="payu"
-                           value="0"/>
-                    <label className="form-check-label w-100" htmlFor="payu">PayU</label>
+                           name="delivery_id"
+                           id="inpost_parcel"
+                           value="0"
+                    />
+                    <label className="form-check-label w-100" htmlFor="payu">Inpost Paczkomaty 24/7</label>
                 </div>
-
-                <div className={'d-flex flex-wrap my-3'}>
-                    {payMethods?.map((payMethod) => (
-                        <img key={payMethod.value}
-                             className={'object-fit-contain mb-3 me-2'}
-                             src={payMethod.brandImageUrl}
-                             alt={payMethod.name} loading={'lazy'} height={'24px'}/>
-                    ))}
-                </div>
+            </div>
+            <div className={'my-3'}>
+                {/* Widget InPost */}
+                <inpost-geowidget
+                    token='https://geowidget.inpost.pl/' // Zastąp prawdziwym tokenem
+                    language='pl'
+                    config='parcelcollect'
+                ></inpost-geowidget>
             </div>
         </>
     );
@@ -79,4 +66,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     updateOrderMainData: (mainData: Partial<Order>) => dispatch(updateOrderMainData(mainData)),
 });
 
-export default connect(mapDispatchToProps)(PaymentSelect);
+export default connect(mapDispatchToProps)(DeliverySelect);
