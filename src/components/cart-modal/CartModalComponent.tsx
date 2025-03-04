@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {OrderItem} from "../../models/order-item";
 import {getCart} from "./getCart";
 import AlertComponent from "../alerts/Alerts";
-import PriceSummary from "../../pages/cart/PriceSummary";
+import DefaultLoader from "../loaders/DefaultLoader";
 
 const CartModalComponent = (props: any) => {
     const [loading, setLoading] = useState(true);
@@ -20,10 +20,10 @@ const CartModalComponent = (props: any) => {
                     const cartData = await getCart();
 
                     props.setOrder(cartData);
-
-                    setLoading(false);
                 } catch (error) {
                     console.log('');
+                } finally {
+                    setLoading(false);
                 }
             }
         )();
@@ -35,12 +35,7 @@ const CartModalComponent = (props: any) => {
             <div className="modal-dialog cart-dialog">
                 <div className="modal-content cart-modal-content">
                     {loading ? (
-                        <div style={{height: '500px'}}
-                             className={'d-flex align-items-center justify-content-center'}>
-                            <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        <DefaultLoader height={'500px'}/>
                     ) : (
                         <>
                             <div className="modal-header px-3 py-2">

@@ -12,7 +12,7 @@ const DeliverySelect = (props: {
 }) => {
     const [selectedPoint, setSelectedPoint] = useState<any>(null);
 
-    const [first_name, setFirstName] = useState('');
+    const [inpost, setInpost] = useState(false);
 
     const [dataFormErrors, setDataFormErrors] = useState<Record<string, string[]>>({});
 
@@ -45,19 +45,24 @@ const DeliverySelect = (props: {
                            type="radio"
                            name="delivery_id"
                            id="inpost_parcel"
+                           checked={inpost}
                            value="0"
+                           onChange={e => setInpost(e.target.checked)}
                     />
-                    <label className="form-check-label w-100" htmlFor="payu">Inpost Paczkomaty 24/7</label>
+                    <label className="form-check-label w-100" htmlFor="inpost_parcel">Inpost Paczkomaty 24/7</label>
                 </div>
             </div>
-            <div className={'my-3'}>
-                {/* Widget InPost */}
-                <inpost-geowidget
-                    token='https://geowidget.inpost.pl/' // Zastąp prawdziwym tokenem
-                    language='pl'
-                    config='parcelcollect'
-                ></inpost-geowidget>
-            </div>
+
+            {inpost && (
+                <div className={'my-3'}>
+                    {/* Widget InPost */}
+                    <inpost-geowidget
+                        token='https://geowidget.inpost.pl/' // Zastąp prawdziwym tokenem
+                        language='pl'
+                        config='parcelcollect'
+                    ></inpost-geowidget>
+                </div>
+            )}
         </>
     );
 };

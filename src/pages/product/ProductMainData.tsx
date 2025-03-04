@@ -1,6 +1,6 @@
 import React, {Dispatch, SyntheticEvent} from 'react';
 import {Product} from "../../models/product";
-import {IconCalendarClock, IconHeart, IconInfoSquareRounded, IconThumbUp, IconTruckDelivery} from "@tabler/icons-react";
+import {IconCalendarClock, IconInfoSquareRounded, IconThumbUp, IconTruckDelivery} from "@tabler/icons-react";
 import axios from "axios";
 import {getCart} from "../../components/cart-modal/getCart";
 import {Order} from "../../models/order";

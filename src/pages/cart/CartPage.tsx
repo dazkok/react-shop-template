@@ -12,6 +12,7 @@ import {getCart} from "../../components/cart-modal/getCart";
 import {setOrder} from "../../redux/actions/cartActions";
 import AlertComponent from "../../components/alerts/Alerts";
 import PriceSummary from "./PriceSummary";
+import DefaultLoader from "../../components/loaders/DefaultLoader";
 
 const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
     const [priceLoading, setPriceLoading] = useState(false);
@@ -19,11 +20,18 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
     const [promoCode, setPromoCode] = useState(props.order?.discount_code ? props.order?.discount_code : '');
     const [promoCodeAlertMessage, setPromoCodeAlertMessage] = useState('');
     const [promoCodeAlertType, setPromoCodeAlertType] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const breadcrumb = [
         {label: 'Home', link: '/'},
         {label: 'Cart', link: ''},
     ];
+
+    useEffect(() => {
+        if (props.order) {
+            setLoading(false);
+        }
+    }, [props.order]);
 
     useEffect(() => {
         (
@@ -97,50 +105,55 @@ const CartPage = (props: { order: Order | undefined, setOrder: Function }) => {
                         <div className={'pe-lg-4'}>
                             <h1 className={'global-title-1 mb-3'}>Your cart</h1>
 
-                            {props.order && props.order.order_items?.length > 0 ? (
-                                <>
-                                    <div className={'global-text mb-4'}>
-                                        TOTAL
-                                        ({props.order.totalQuantity} {props.order.totalQuantity > 1 ? 'products' : 'product'}) <b>{props.order.totalSum.toString().replace('.', ',')} zł</b>
-                                        <br/>
-                                        The products in your cart are not reserved - finalize the transaction to order
-                                        them.
-                                    </div>
-
-                                    {props.order.order_items.map((order_item: OrderItem) => (
-                                        <CartProduct key={order_item.id} orderItem={order_item}
-                                                     setPriceLoading={setPriceLoading} productStyle={'main-cart'}/>
-                                    ))}
-                                </>
+                            {loading ? (
+                                <DefaultLoader height={'300px'}/> // Wyświetl loader podczas ładowania
                             ) : (
-                                <>
-                                    <div className="modal-body">
-                                        <div className={'text-start mt-5'}>
-                                            Your shopping cart is empty &#129402;<br/>
-                                            Add something!
+                                props.order && props.order.order_items?.length > 0 ? (
+                                    <>
+                                        <div className={'global-text mb-4'}>
+                                            TOTAL
+                                            ({props.order.totalQuantity} {props.order.totalQuantity > 1 ? 'products' : 'product'}) <b>{props.order.finalSum.toFixed(2).toString().replace('.', ',')} zł</b>
+                                            <br/>
+                                            The products in your cart are not reserved - finalize the transaction to
+                                            order them.
                                         </div>
-                                    </div>
 
-                                    <div className="modal-footer d-flex flex-column mt-4">
-                                        <a href="/"
-                                           className="btn global-button global-secondary-button w-100 text-start">Keep shopping
-                                        </a>
-                                    </div>
-                                </>
+                                        {props.order.order_items.map((order_item: OrderItem) => (
+                                            <CartProduct key={order_item.id} orderItem={order_item}
+                                                         setPriceLoading={setPriceLoading} productStyle={'main-cart'}/>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="modal-body">
+                                            <div className={'text-start mt-5'}>
+                                                Your shopping cart is empty &#129402;<br/>
+                                                Add something!
+                                            </div>
+                                        </div>
+
+                                        <div className="modal-footer d-flex flex-column mt-4">
+                                            <a href="/"
+                                               className="btn global-button global-secondary-button w-100 text-start">Keep
+                                                shopping
+                                            </a>
+                                        </div>
+                                    </>
+                                )
                             )}
                         </div>
                     </div>
                     <div className={'col-12 col-md-4'}>
                         {props.order && props.order.order_items?.length > 0 ? (
                             <div className={'ps-lg-4 pe-lg-3'}>
-                                <a className="btn global-button w-100 text-start"
+                                <a className={`btn global-button w-100 text-start ${priceLoading && 'disabled'}`}
                                    href={'/checkout'}>
                                     Complete the transaction
                                 </a>
 
                                 <div className={'global-subtitle text-uppercase mt-5'}>Order summary</div>
 
-                                <PriceSummary order={props.order}/>
+                                <PriceSummary order={props.order} priceLoading={priceLoading}/>
 
                                 <div className={'d-flex flex-column align-items-start mt-5'}>
                                     <div className={'w-100'}>

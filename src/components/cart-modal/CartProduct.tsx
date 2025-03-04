@@ -1,5 +1,5 @@
-import React, {Dispatch, useCallback, useRef, useEffect, useState} from 'react';
-import {IconHeart, IconMinus, IconPlus, IconTrash} from "@tabler/icons-react";
+import React, {Dispatch, useCallback, useRef, useEffect} from 'react';
+import {IconMinus, IconPlus, IconTrash} from "@tabler/icons-react";
 import {OrderItem} from "../../models/order-item";
 import {removeFromCart} from "./removeFromCart";
 import {getCart} from "./getCart";

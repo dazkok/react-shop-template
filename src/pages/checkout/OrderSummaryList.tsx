@@ -17,7 +17,7 @@ const CartModalComponent = (props: { order: Order }) => {
             </div>
 
             {props.order && props.order.order_items?.length > 0 ? (
-                <PriceSummary order={props.order}/>
+                <PriceSummary order={props.order} priceLoading={priceLoading}/>
             ) : ''}
 
             <hr className={'my-4'}/>

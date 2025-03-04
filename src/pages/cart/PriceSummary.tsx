@@ -1,12 +1,19 @@
 import React from 'react';
 import {Order} from "../../models/order";
+import DefaultLoader from "../../components/loaders/DefaultLoader";
 
-const PriceSummary = (props: { order: Order }) => {
-    return (
+const PriceSummary = (props: { order: Order, priceLoading: boolean }) => {
+    return props.priceLoading ? (
+        <>
+            <DefaultLoader height={'250px'}/>
+        </>
+        ) : (
         <>
             <div className={'row global-text'}>
                 <div
-                    className={'col-6 text-nowrap text-start'}>Value of {props.order.totalQuantity > 1 ? 'products' : 'product'} ({props.order.totalQuantity})</div>
+                    className={'col-6 text-nowrap text-start'}>Value
+                    of {props.order.totalQuantity > 1 ? 'products' : 'product'} ({props.order.totalQuantity})
+                </div>
                 <div
                     className={'col-6 text-end text-nowrap'}>{props.order.originalSum.toString().replace('.', ',')} zł
                 </div>
